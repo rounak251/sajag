@@ -1,0 +1,28 @@
+site_id,river,site,lat,lon,asked_lat,asked_lon,aug2020_q
+kosi_birpur,Kosi,Birpur,26.525002,86.92502,26.52,86.93,7627.915
+kosi_basua,Kosi,Basua,26.225006,86.57501,26.12,86.6,7800.918571428571
+kosi_baltara,Kosi,Baltara,25.575005,86.625,25.58,86.63,8247.483571428571
+gandak_valmiki,Gandak,Valmikinagar,27.425003,83.875,27.43,83.91,7496.459285714285
+gandak_dumaria,Gandak,Dumariaghat,26.475006,84.625,26.55,84.62,7721.876428571429
+gandak_rewa,Gandak,Rewaghat,26.025002,84.975006,26.13,85.12,7749.222857142857
+gandak_hajipur,Gandak,Hajipur,25.725006,85.125,25.72,85.2,7778.432142857143
+bgandak_lalbegia,Burhi Gandak,Lalbegiaghat,26.575005,85.025024,26.58,85.05,572.4214285714286
+bgandak_sikandarpur,Burhi Gandak,Sikandarpur,26.125,85.375,26.13,85.4,742.5907142857143
+bgandak_samastipur,Burhi Gandak,Samastipur,25.875,85.775024,25.86,85.78,786.115
+bgandak_rosera,Burhi Gandak,Rosera,25.725006,85.975006,25.75,86.03,815.5671428571429
+bagmati_dheng,Bagmati,Dheng,26.875,85.32501,26.72,85.47,515.3107142857143
+bagmati_runni,Bagmati,Runnisaidpur,26.375,85.475006,26.38,85.47,732.9235714285714
+bagmati_benibad,Bagmati,Benibad,26.025002,85.57501,26.03,85.63,764.3778571428572
+bagmati_hayaghat,Bagmati,Hayaghat,25.975006,85.92502,25.98,85.98,1323.5935714285715
+kamla_jainagar,Kamla,Jainagar,26.575005,86.125,26.6,86.13,332.3285714285715
+kamla_jhanjharpur,Kamla,Jhanjharpur,26.275002,86.225006,26.27,86.28,435.07714285714286
+mahananda_taibpur,Mahananda,Taibpur,26.225006,87.92502,26.2,87.96,574.7185714285714
+mahananda_dhengra,Mahananda,Dhengraghat,25.775002,87.67502,25.7,87.55,377.59999999999997
+ganga_buxar,Ganga,Buxar,25.625,83.975006,25.58,83.98,5750.980714285714
+ganga_patna,Ganga,Gandhighat,25.625,85.125,25.62,85.13,28405.28
+ganga_hathidah,Ganga,Hathidah,25.375,85.975006,25.37,85.99,28792.15142857143
+ganga_munger,Ganga,Munger,25.425003,86.475006,25.38,86.47,29545.056428571428
+ganga_bhagalpur,Ganga,Bhagalpur,25.275002,87.025024,25.27,87.0,30667.959285714285
+ghaghara_darauli,Ghaghara,Darauli,26.075005,84.07501,26.08,84.13,12038.352857142858
+sone_koelwar,Sone,Koelwar,25.575005,84.775024,25.57,84.8,1836.2450000000001
+punpun_sripalpur,Punpun,Sripalpur,25.525002,85.225006,25.5,85.22,334.8692857142857
