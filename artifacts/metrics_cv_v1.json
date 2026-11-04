@@ -1,0 +1,362 @@
+{
+ "headline": {
+  "caught_3d": 0.6,
+  "caught_3d_ci": [
+   0.3965118806143147,
+   0.7619130869130868
+  ],
+  "river_only_3d": 0.3384615384615385,
+  "river_only_3d_ci": [
+   0.15908189033189032,
+   0.5579008567931456
+  ],
+  "difference_ci": [
+   -0.008703486094790446,
+   0.48810215946843855
+  ],
+  "rain_only_3d": 0.43846153846153846,
+  "rain_difference_ci": [
+   -0.0073691176470588515,
+   0.3187522644927536
+  ],
+  "budget": 0.05,
+  "events": 23,
+  "onsets": 130,
+  "years": "2006-2023"
+ },
+ "river": [
+  {
+   "lead": 1,
+   "ap_new_model": 0.5798567328501127,
+   "ap_new_persistence": 0.16635632048105387,
+   "nse_model": 0.9890909705750651,
+   "nse_persistence": 0.9808653361692814,
+   "csi_model": 0.7952256620663931,
+   "csi_persistence": 0.7047353760445683
+  },
+  {
+   "lead": 3,
+   "ap_new_model": 0.41148021033137294,
+   "ap_new_persistence": 0.16531462048737292,
+   "nse_model": 0.9534589454972968,
+   "nse_persistence": 0.9212273012187335,
+   "csi_model": 0.6271279516749039,
+   "csi_persistence": 0.5536585365853659
+  },
+  {
+   "lead": 5,
+   "ap_new_model": 0.3439471367754541,
+   "ap_new_persistence": 0.18001147508399112,
+   "nse_model": 0.9169442374152221,
+   "nse_persistence": 0.8491228072126358,
+   "csi_model": 0.5224669603524229,
+   "csi_persistence": 0.45764600980829245
+  },
+  {
+   "lead": 7,
+   "ap_new_model": 0.33177224827567264,
+   "ap_new_persistence": 0.20232943789222788,
+   "nse_model": 0.8844166766049857,
+   "nse_persistence": 0.7711212296549468,
+   "csi_model": 0.4605701592002962,
+   "csi_persistence": 0.3916761687571266
+  }
+ ],
+ "impact": [
+  {
+   "lead": 1,
+   "model": "Sajag",
+   "pr_auc": 0.08304154676591473,
+   "base_rate": 0.009937698276191568
+  },
+  {
+   "lead": 1,
+   "model": "River level only",
+   "pr_auc": 0.06942344160357662,
+   "base_rate": 0.009937698276191568
+  },
+  {
+   "lead": 1,
+   "model": "3-day rain only",
+   "pr_auc": 0.02455254986622548,
+   "base_rate": 0.009937698276191568
+  },
+  {
+   "lead": 1,
+   "model": "Climatology",
+   "pr_auc": 0.025405599848074185,
+   "base_rate": 0.009937698276191568
+  },
+  {
+   "lead": 3,
+   "model": "Sajag",
+   "pr_auc": 0.10862880749774555,
+   "base_rate": 0.012708787218591141
+  },
+  {
+   "lead": 3,
+   "model": "River level only",
+   "pr_auc": 0.08218542566617795,
+   "base_rate": 0.012708787218591141
+  },
+  {
+   "lead": 3,
+   "model": "3-day rain only",
+   "pr_auc": 0.033060415966814936,
+   "base_rate": 0.012708787218591141
+  },
+  {
+   "lead": 3,
+   "model": "Climatology",
+   "pr_auc": 0.0311851926961442,
+   "base_rate": 0.012708787218591141
+  },
+  {
+   "lead": 5,
+   "model": "Sajag",
+   "pr_auc": 0.12490765924297778,
+   "base_rate": 0.015393876848985208
+  },
+  {
+   "lead": 5,
+   "model": "River level only",
+   "pr_auc": 0.08921532478278539,
+   "base_rate": 0.015393876848985208
+  },
+  {
+   "lead": 5,
+   "model": "3-day rain only",
+   "pr_auc": 0.038578372896656096,
+   "base_rate": 0.015393876848985208
+  },
+  {
+   "lead": 5,
+   "model": "Climatology",
+   "pr_auc": 0.03777223263173583,
+   "base_rate": 0.015393876848985208
+  },
+  {
+   "lead": 7,
+   "model": "Sajag",
+   "pr_auc": 0.14747380416738298,
+   "base_rate": 0.017945189771815157
+  },
+  {
+   "lead": 7,
+   "model": "River level only",
+   "pr_auc": 0.09472090147679062,
+   "base_rate": 0.017945189771815157
+  },
+  {
+   "lead": 7,
+   "model": "3-day rain only",
+   "pr_auc": 0.042140840137514284,
+   "base_rate": 0.017945189771815157
+  },
+  {
+   "lead": 7,
+   "model": "Climatology",
+   "pr_auc": 0.04430376997269202,
+   "base_rate": 0.017945189771815157
+  }
+ ],
+ "budget": [
+  {
+   "budget": 0.02,
+   "method": "Sajag",
+   "caught_1d": 0.4461538461538462,
+   "caught_3d": 0.4153846153846154,
+   "caught_5d": 0.25384615384615383,
+   "precision": 0.1977077363896848,
+   "median_lead": 6.0
+  },
+  {
+   "budget": 0.02,
+   "method": "River level only",
+   "caught_1d": 0.4307692307692308,
+   "caught_3d": 0.2153846153846154,
+   "caught_5d": 0.1076923076923077,
+   "precision": 0.14565425023877746,
+   "median_lead": 2.5
+  },
+  {
+   "budget": 0.02,
+   "method": "3-day rain only",
+   "caught_1d": 0.3153846153846154,
+   "caught_3d": 0.13076923076923078,
+   "caught_5d": 0.06153846153846154,
+   "precision": 0.07449856733524356,
+   "median_lead": 2.0
+  },
+  {
+   "budget": 0.02,
+   "method": "Climatology",
+   "caught_1d": 0.06153846153846154,
+   "caught_3d": 0.06153846153846154,
+   "caught_5d": 0.06153846153846154,
+   "precision": 0.03580562659846547,
+   "median_lead": 7.0
+  },
+  {
+   "budget": 0.05,
+   "method": "Sajag",
+   "caught_1d": 0.6538461538461539,
+   "caught_3d": 0.6,
+   "caught_5d": 0.36923076923076925,
+   "precision": 0.15956430345881903,
+   "median_lead": 6.0
+  },
+  {
+   "budget": 0.05,
+   "method": "River level only",
+   "caught_1d": 0.5307692307692308,
+   "caught_3d": 0.3384615384615385,
+   "caught_5d": 0.2230769230769231,
+   "precision": 0.11590605308382662,
+   "median_lead": 3.0
+  },
+  {
+   "budget": 0.05,
+   "method": "3-day rain only",
+   "caught_1d": 0.6230769230769231,
+   "caught_3d": 0.43846153846153846,
+   "caught_5d": 0.2230769230769231,
+   "precision": 0.061138708444784105,
+   "median_lead": 3.0
+  },
+  {
+   "budget": 0.05,
+   "method": "Climatology",
+   "caught_1d": 0.17692307692307693,
+   "caught_3d": 0.16923076923076924,
+   "caught_5d": 0.16153846153846155,
+   "precision": 0.04751131221719457,
+   "median_lead": 7.0
+  },
+  {
+   "budget": 0.1,
+   "method": "Sajag",
+   "caught_1d": 0.7307692307692307,
+   "caught_3d": 0.6923076923076923,
+   "caught_5d": 0.49230769230769234,
+   "precision": 0.10672654309191668,
+   "median_lead": 6.0
+  },
+  {
+   "budget": 0.1,
+   "method": "River level only",
+   "caught_1d": 0.6230769230769231,
+   "caught_3d": 0.46923076923076923,
+   "caught_5d": 0.3230769230769231,
+   "precision": 0.08099599313108186,
+   "median_lead": 5.0
+  },
+  {
+   "budget": 0.1,
+   "method": "3-day rain only",
+   "caught_1d": 0.7538461538461538,
+   "caught_3d": 0.6153846153846154,
+   "caught_5d": 0.3923076923076923,
+   "precision": 0.05216892795719472,
+   "median_lead": 5.0
+  },
+  {
+   "budget": 0.1,
+   "method": "Climatology",
+   "caught_1d": 0.4846153846153846,
+   "caught_3d": 0.4307692307692308,
+   "caught_5d": 0.4307692307692308,
+   "precision": 0.06329834838499715,
+   "median_lead": 7.0
+  }
+ ],
+ "reliability": [
+  {
+   "predicted": 0.006071156738230309,
+   "observed": 0.00395703787450537,
+   "n": 5307
+  },
+  {
+   "predicted": 0.008669023363495811,
+   "observed": 0.005402425578831312,
+   "n": 9070
+  },
+  {
+   "predicted": 0.012476464586660298,
+   "observed": 0.019376181474480152,
+   "n": 6348
+  },
+  {
+   "predicted": 0.016329269359380526,
+   "observed": 0.033950617283950615,
+   "n": 6156
+  },
+  {
+   "predicted": 0.019885566000865322,
+   "observed": 0.019340733266061217,
+   "n": 5946
+  },
+  {
+   "predicted": 0.023351472687450248,
+   "observed": 0.003939075630252101,
+   "n": 7616
+  },
+  {
+   "predicted": 0.037679993539722116,
+   "observed": 0.04524482809941956,
+   "n": 6719
+  },
+  {
+   "predicted": 0.1477847251184965,
+   "observed": 0.12916984006092916,
+   "n": 6565
+  }
+ ],
+ "ablation": [
+  {
+   "variant": "Full model",
+   "pr_auc": 0.14747380416738298,
+   "caught_3d": 0.6
+  },
+  {
+   "variant": "Adding the river forecast",
+   "pr_auc": 0.13798504009669726,
+   "caught_3d": 0.5923076923076923
+  },
+  {
+   "variant": "No physics constraints",
+   "pr_auc": 0.15445898416401482,
+   "caught_3d": 0.5846153846153846
+  },
+  {
+   "variant": "No upstream rain",
+   "pr_auc": 0.12829839089267558,
+   "caught_3d": 0.6307692307692307
+  },
+  {
+   "variant": "Tributaries and Ganga merged",
+   "pr_auc": 0.13749949432917935,
+   "caught_3d": 0.6307692307692307
+  },
+  {
+   "variant": "No river data at all",
+   "pr_auc": 0.08645680522938831,
+   "caught_3d": 0.5461538461538461
+  },
+  {
+   "variant": "No season feature",
+   "pr_auc": 0.11790872034992302,
+   "caught_3d": 0.5615384615384615
+  },
+  {
+   "variant": "No label cleaning",
+   "pr_auc": 0.08527724681190157,
+   "caught_3d": 0.5384615384615384
+  }
+ ],
+ "thresholds": {
+  "watch": 0.03456587737949409,
+  "warning": 0.08066759943141673,
+  "severe": 0.20826306112970072
+ }
+}

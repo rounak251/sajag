@@ -10,11 +10,10 @@ import pandas as pd
 from sklearn.isotonic import IsotonicRegression
 from sklearn.metrics import average_precision_score
 
-from sajag import dataset
+from sajag import dataset, scoring
 from sajag import flood_model as M
 from sajag import impact_model as I
 from sajag import river_model as R
-from sajag import scoring
 from sajag.config import ARTIFACTS, PROCESSED, RAW
 from sajag.features import PLACE_FEATURES
 from sajag.sources import ifi
@@ -28,7 +27,6 @@ REASON_GROUPS = {
     "local_rain": ["r3", "r7", "r15", "r30"],
     "soil": ["soil_root"],
     "statewide": ["state_r3", "state_wet", "state_sites_high", "state_ganga_high"],
-    "season": ["doy"],
 }
 
 
@@ -46,6 +44,17 @@ def stage_one(world) -> tuple[pd.DataFrame, dict]:
     return pd.concat(preds).sort_index(), R.fit_all(dev)
 
 
+def nse(sim: pd.Series, obs: pd.Series) -> float:
+    """Nash-Sutcliffe efficiency: 1 is perfect, 0 is no better than the mean."""
+    return float(1 - ((sim - obs) ** 2).sum() / ((obs - obs.mean()) ** 2).sum())
+
+
+def csi(flag: pd.Series, hit: pd.Series) -> float:
+    """Critical success index: hits over hits, misses and false alarms."""
+    tp = int((flag & (hit == 1)).sum())
+    return tp / max(tp + int((flag & (hit == 0)).sum()) + int((~flag & (hit == 1)).sum()), 1)
+
+
 def river_skill(world, oof: pd.DataFrame) -> list[dict]:
     """River forecast against persistence, on out-of-fold years."""
     t = world.site_table.reindex(oof.index)
@@ -57,19 +66,12 @@ def river_skill(world, oof: pd.DataFrame) -> list[dict]:
         hit = (obs >= 0).astype(int)
         new = pers < 0  # river not yet in flood: the only case a forecast adds anything
 
-        def nse(sim):
-            return float(1 - ((sim - obs) ** 2).sum() / ((obs - obs.mean()) ** 2).sum())
-
-        def csi(flag):
-            tp = int((flag & (hit == 1)).sum())
-            return tp / max(tp + int((flag & (hit == 0)).sum()) + int((~flag & (hit == 1)).sum()), 1)
-
         rows.append({
             "lead": lead,
             "ap_new_model": float(average_precision_score(hit[new], ex[new])),
             "ap_new_persistence": float(average_precision_score(hit[new], pers[new])),
-            "nse_model": nse(pk), "nse_persistence": nse(pers),
-            "csi_model": csi(ex >= 0.5), "csi_persistence": csi(pers >= 0),
+            "nse_model": nse(pk, obs), "nse_persistence": nse(pers, obs),
+            "csi_model": csi(ex >= 0.5, hit), "csi_persistence": csi(pers >= 0, hit),
         })
     return rows
 
@@ -193,7 +195,7 @@ def main() -> None:
             if f not in ("q_max", "q_log_p99", "q_days_high", "g_pct", "g_over",
                          "state_sites_high", "state_ganga_high")
         ], {}),
-        "No season feature": ([f for f in I.FEATURES if f != "doy"], {}),
+        "With the calendar feature (version 1)": (I.FEATURES + ["doy"], {}),
     }
     ablation = []
     for name, (feats, kw) in variants.items():
@@ -279,7 +281,7 @@ def main() -> None:
             "difference_ci": list(ci["difference"]),
             "rain_only_3d": float(hit3["3-day rain only"].mean()),
             "rain_difference_ci": list(ci_rain["difference"]),
-            "budget": 0.05, "events": int(on["event"].nunique()), "onsets": int(len(on)),
+            "budget": 0.05, "events": int(on["event"].nunique()), "onsets": len(on),
             "years": f"{dataset.LABEL_START}-{dataset.LABEL_END}",
         },
         "river": site_rows,

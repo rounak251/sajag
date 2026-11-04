@@ -1,0 +1,194 @@
+{
+ "forecast": {
+  "base_rate": 0.15545571245186135,
+  "ap_model": 0.5659070577576293,
+  "ap_persistence": 0.482380102038401,
+  "auc_model": 0.8749232004492438,
+  "auc_persistence": 0.8590676939324371
+ },
+ "auc_august": 0.9409722222222223,
+ "auc_july_forecast": 0.8819444444444445,
+ "rows": [
+  {
+   "year": 1997,
+   "declared": false,
+   "aug_share": 0.0,
+   "july_chance": 0.02010225050218467
+  },
+  {
+   "year": 1998,
+   "declared": false,
+   "aug_share": 0.02631578947368421,
+   "july_chance": 0.16146709759725708
+  },
+  {
+   "year": 1999,
+   "declared": false,
+   "aug_share": 0.21052631578947367,
+   "july_chance": 0.1530536080826581
+  },
+  {
+   "year": 2000,
+   "declared": false,
+   "aug_share": 0.15789473684210525,
+   "july_chance": 0.16035875133537458
+  },
+  {
+   "year": 2001,
+   "declared": false,
+   "aug_share": 0.15789473684210525,
+   "july_chance": 0.15310981664265433
+  },
+  {
+   "year": 2002,
+   "declared": false,
+   "aug_share": 0.34210526315789475,
+   "july_chance": 0.24113342382689598
+  },
+  {
+   "year": 2003,
+   "declared": false,
+   "aug_share": 0.02631578947368421,
+   "july_chance": 0.054140286568016706
+  },
+  {
+   "year": 2004,
+   "declared": false,
+   "aug_share": 0.0,
+   "july_chance": 0.03135624385879564
+  },
+  {
+   "year": 2005,
+   "declared": false,
+   "aug_share": 0.0,
+   "july_chance": 0.04399112727506619
+  },
+  {
+   "year": 2006,
+   "declared": false,
+   "aug_share": 0.0,
+   "july_chance": 0.005187530306804263
+  },
+  {
+   "year": 2007,
+   "declared": false,
+   "aug_share": 0.0,
+   "july_chance": 0.0025833954967577387
+  },
+  {
+   "year": 2008,
+   "declared": false,
+   "aug_share": 0.0,
+   "july_chance": 0.006820335828148362
+  },
+  {
+   "year": 2009,
+   "declared": true,
+   "aug_share": 0.3157894736842105,
+   "july_chance": 0.3363096368946965
+  },
+  {
+   "year": 2010,
+   "declared": true,
+   "aug_share": 0.39473684210526316,
+   "july_chance": 0.24749314059946204
+  },
+  {
+   "year": 2011,
+   "declared": false,
+   "aug_share": 0.0,
+   "july_chance": 0.08255849147667388
+  },
+  {
+   "year": 2012,
+   "declared": false,
+   "aug_share": 0.0,
+   "july_chance": 0.0389987052195178
+  },
+  {
+   "year": 2013,
+   "declared": true,
+   "aug_share": 0.6052631578947368,
+   "july_chance": 0.2699656302286895
+  },
+  {
+   "year": 2014,
+   "declared": false,
+   "aug_share": 0.0,
+   "july_chance": 0.08149546218934704
+  },
+  {
+   "year": 2015,
+   "declared": false,
+   "aug_share": 0.0,
+   "july_chance": 0.042007619221839494
+  },
+  {
+   "year": 2016,
+   "declared": false,
+   "aug_share": 0.2631578947368421,
+   "july_chance": 0.08158871474554537
+  },
+  {
+   "year": 2017,
+   "declared": false,
+   "aug_share": 0.0,
+   "july_chance": 0.019556681593970324
+  },
+  {
+   "year": 2018,
+   "declared": true,
+   "aug_share": 0.2894736842105263,
+   "july_chance": 0.3112039293238723
+  },
+  {
+   "year": 2019,
+   "declared": true,
+   "aug_share": 0.21052631578947367,
+   "july_chance": 0.03789585350299793
+  },
+  {
+   "year": 2020,
+   "declared": false,
+   "aug_share": 0.0,
+   "july_chance": 0.004299775909787023
+  },
+  {
+   "year": 2021,
+   "declared": false,
+   "aug_share": 0.0,
+   "july_chance": 0.007970679860956384
+  },
+  {
+   "year": 2022,
+   "declared": true,
+   "aug_share": 0.5526315789473685,
+   "july_chance": 0.3728712279111238
+  },
+  {
+   "year": 2023,
+   "declared": false,
+   "aug_share": 0.2631578947368421,
+   "july_chance": 0.2645931677262438
+  },
+  {
+   "year": 2024,
+   "declared": false,
+   "aug_share": 0.13157894736842105,
+   "july_chance": 0.14223915061963632
+  },
+  {
+   "year": 2025,
+   "declared": false,
+   "aug_share": 0.13157894736842105,
+   "july_chance": 0.21504712069907841
+  },
+  {
+   "year": 2026,
+   "declared": false,
+   "aug_share": 0.3684210526315789,
+   "july_chance": 0.1544494071260563
+  }
+ ],
+ "note": "Six declared years among the seasons scored, so these scores are rough. Declarations are political and administrative decisions as well as rainfall ones."
+}

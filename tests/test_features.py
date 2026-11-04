@@ -15,7 +15,10 @@ def world():
         "site_id": ["s1", "s2", "s3"], "river": ["Kosi", "Gandak", "Ganga"],
         "lat": [26.1, 25.9, 25.6], "lon": [86.1, 85.5, 85.1],
     })
-    frame = lambda cols, hi: pd.DataFrame(rng.uniform(0, hi, (len(idx), len(cols))), idx, cols)  # noqa: E731
+
+    def frame(cols, hi):
+        return pd.DataFrame(rng.uniform(0, hi, (len(idx), len(cols))), idx, cols)
+
     return {
         "rain": frame(["a", "b"], 40), "soil_top": frame(["a", "b"], 1),
         "soil_root": frame(["a", "b"], 1), "upstream": frame([u[0] for u in UPSTREAM], 40),

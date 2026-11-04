@@ -34,7 +34,7 @@ def _options(start: str, end: str, duration: float | None) -> list[tuple[date, d
         for j, e in enumerate(_readings(end)):
             span = (e - s).days + 1
             cost = 1000.0 if span < 1 else 0.0
-            if duration is not None and duration == duration:
+            if pd.notna(duration):
                 cost += min(abs(span - duration), 400)
             elif span > 60:
                 cost += span

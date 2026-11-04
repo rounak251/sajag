@@ -1,0 +1,42 @@
+[
+  {
+    "id": "sep2024",
+    "title": "Kosi and Nepal rivers, September 2024",
+    "year": 2024,
+    "start": "2024-09-16",
+    "end": "2024-10-04",
+    "focus": "darbhanga",
+    "held_out": true,
+    "caption": "Rain forecasts put all 14 named districts at Warning by 24 September, four days before the first report on the 28th. Seven other districts were warned too. The same replay shows a failure: the Ganga flood reported on 22 September got no warning in any of its 7 districts."
+  },
+  {
+    "id": "sep2026",
+    "title": "Ganga, September 2026",
+    "year": 2026,
+    "start": "2026-08-24",
+    "end": "2026-09-14",
+    "focus": "patna",
+    "held_out": true,
+    "caption": "The Ganga stood 1.93 m above danger level at Patna on 5 September. 11 of the 12 named districts were at Warning at least 3 days before they were first reported."
+  },
+  {
+    "id": "aug2017",
+    "title": "North Bihar, August 2017",
+    "year": 2017,
+    "start": "2017-08-03",
+    "end": "2017-08-20",
+    "focus": "araria",
+    "held_out": false,
+    "caption": "A flood from the training years, replayed by a model that never saw 2015 to 2017. Rain forecasts are not used here, because the archive starts in 2024."
+  },
+  {
+    "id": "jul2019",
+    "title": "Bagmati and Kamla, July 2019",
+    "year": 2019,
+    "start": "2019-07-04",
+    "end": "2019-07-22",
+    "focus": "sitamarhi",
+    "held_out": false,
+    "caption": "A flood from the training years, replayed by a model that never saw 2018 to 2020. Rain forecasts are not used here, because the archive starts in 2024."
+  }
+]

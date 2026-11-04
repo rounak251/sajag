@@ -1,9 +1,12 @@
-"""Score the frozen models on 2024 onward, against a list locked before any prediction existed.
+"""Score the models on 2024 onward, against a list locked before any prediction existed.
 
 The list is data/reference/blind_test_events.csv. Its commit precedes the first run of this
-script, so the events could not have been chosen to suit the model. Alert thresholds come from
-2006-2023 only. A first-report date is when the press first named a district, which can be
-later than the water arrived, so an alert before it is not always an alert before the flood.
+script. That first run, on version 1, was the true blind test and failed: its result stays in
+artifacts/metrics_blind.json and is never overwritten. Version 2 was built after seeing it, so
+everything this script writes now is post-hoc, not blind.
+
+A first-report date is when the press first named a district, which can be later than the water
+arrived, so an alert before it is not always an alert before the flood.
 """
 import json
 
@@ -85,7 +88,7 @@ def main() -> None:
     for name, g in scored.groupby("event", sort=False):
         leads = g.loc[g["sajag_lead"] > 0, "sajag_lead"]
         per_event.append({
-            "event": name, "first_report": g["first_report"].min(), "districts": int(len(g)),
+            "event": name, "first_report": g["first_report"].min(), "districts": len(g),
             "warned_1d": int(g["sajag_1d"].sum()), "warned_3d": int(g["sajag_3d"].sum()),
             "watch_3d": int(g["sajag_watch_3d"].sum()),
             "river_3d": int(g["river_3d"].sum()), "rain_3d": int(g["rain_3d"].sum()),
@@ -106,7 +109,7 @@ def main() -> None:
     river_pred = model.river_forecast(site)
 
     total = {
-        "district_events": int(len(scored)),
+        "district_events": len(scored),
         "events": int(scored["event"].nunique()),
         **{
             f"{name}_{k}": int(scored[f"{name}_{k}"].sum())
@@ -117,7 +120,7 @@ def main() -> None:
         "events": per_event, "total": total, "alert_rate": alert_rate,
         "river": river_skill(site, river_pred), "rows": scored.to_dict("records"),
     }
-    (ARTIFACTS / "metrics_blind.json").write_text(json.dumps(out, indent=1))
+    (ARTIFACTS / "metrics_posthoc_observed.json").write_text(json.dumps(out, indent=1))
 
     hind = pd.DataFrame({f"risk{k}": model.calibrate(v, k) for k, v in scores.items()})
     hind["score7"] = scores[7]

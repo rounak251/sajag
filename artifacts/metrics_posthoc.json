@@ -1,0 +1,178 @@
+{
+ "rain_thresholds_mm": {
+  "watch": 96.39999999999998,
+  "warning": 124.83999999999995,
+  "severe": 156.53999999999994
+ },
+ "forecast_coverage": 0.9673202614379085,
+ "alert_rate": 0.11105377823644078,
+ "alert_rate_by_year": {
+  "2024": 0.12108703130374956,
+  "2025": 0.10887512899896801,
+  "2026": 0.10319917440660474
+ },
+ "totals": {
+  "sajag": {
+   "warned_1d": 38,
+   "warned_3d": 37,
+   "alert_rate": 0.11105377823644078
+  },
+  "sajag_watch": {
+   "warned_1d": 39,
+   "warned_3d": 39,
+   "alert_rate": 0.2776057791537668
+  },
+  "model_only": {
+   "warned_1d": 16,
+   "warned_3d": 15,
+   "alert_rate": 0.047872950349730534
+  },
+  "forecast_only": {
+   "warned_1d": 27,
+   "warned_3d": 27,
+   "alert_rate": 0.06879944960440317
+  },
+  "river_fixed": {
+   "warned_1d": 8,
+   "warned_3d": 6,
+   "alert_rate": 0.046840958605664486
+  },
+  "rain_fixed": {
+   "warned_1d": 21,
+   "warned_3d": 10,
+   "alert_rate": 0.035661048044948976
+  },
+  "river_matched": {
+   "warned_1d": 14,
+   "warned_3d": 11,
+   "alert_rate": 0.11151244123380347
+  },
+  "rain_matched": {
+   "warned_1d": 31,
+   "warned_3d": 23,
+   "alert_rate": 0.1111111111111111
+  }
+ },
+ "district_events": 46,
+ "events": [
+  {
+   "event": "2024 Ganga flood",
+   "first_report": "2024-09-22",
+   "districts": 7,
+   "warned_1d": 0,
+   "warned_3d": 0,
+   "river_3d": 2,
+   "rain_3d": 4,
+   "median_lead": 0.0
+  },
+  {
+   "event": "2024 Nepal rivers flood",
+   "first_report": "2024-09-28",
+   "districts": 14,
+   "warned_1d": 14,
+   "warned_3d": 14,
+   "river_3d": 0,
+   "rain_3d": 6,
+   "median_lead": 5.0
+  },
+  {
+   "event": "2025 August Ganga flood",
+   "first_report": "2025-08-03",
+   "districts": 7,
+   "warned_1d": 6,
+   "warned_3d": 6,
+   "river_3d": 3,
+   "rain_3d": 2,
+   "median_lead": 5.5
+  },
+  {
+   "event": "2026 September Ganga flood",
+   "first_report": "2026-09-05",
+   "districts": 12,
+   "warned_1d": 12,
+   "warned_3d": 11,
+   "river_3d": 4,
+   "rain_3d": 5,
+   "median_lead": 7.0
+  },
+  {
+   "event": "2026 late September flood",
+   "first_report": "2026-09-30",
+   "districts": 6,
+   "warned_1d": 6,
+   "warned_3d": 6,
+   "river_3d": 2,
+   "rain_3d": 6,
+   "median_lead": 7.0
+  }
+ ],
+ "spatial": [
+  {
+   "event": "2024 Ganga flood",
+   "named": 7,
+   "named_warned": 0,
+   "other": 31,
+   "other_warned": 0
+  },
+  {
+   "event": "2024 Nepal rivers flood",
+   "named": 14,
+   "named_warned": 14,
+   "other": 24,
+   "other_warned": 7
+  },
+  {
+   "event": "2025 August Ganga flood",
+   "named": 7,
+   "named_warned": 5,
+   "other": 31,
+   "other_warned": 21
+  },
+  {
+   "event": "2026 September Ganga flood",
+   "named": 12,
+   "named_warned": 10,
+   "other": 26,
+   "other_warned": 10
+  },
+  {
+   "event": "2026 late September flood",
+   "named": 6,
+   "named_warned": 6,
+   "other": 32,
+   "other_warned": 11
+  }
+ ],
+ "placebo": {
+  "sajag": {
+   "actual": 37,
+   "chance_mean": 13.497,
+   "chance_p95": 27.0,
+   "p": 0.0014992503748125937
+  },
+  "model_only": {
+   "actual": 15,
+   "chance_mean": 5.6395,
+   "chance_p95": 17.0,
+   "p": 0.09695152423788106
+  },
+  "forecast_only": {
+   "actual": 27,
+   "chance_mean": 9.843,
+   "chance_p95": 24.0,
+   "p": 0.02448775612193903
+  },
+  "rain_matched": {
+   "actual": 23,
+   "chance_mean": 11.4325,
+   "chance_p95": 25.0,
+   "p": 0.09145427286356822
+  },
+  "river_matched": {
+   "actual": 11,
+   "chance_mean": 7.929,
+   "chance_p95": 19.0,
+   "p": 0.2993503248375812
+  }
+ }
+}

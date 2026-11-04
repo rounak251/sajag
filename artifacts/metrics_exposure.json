@@ -1,0 +1,15 @@
+{
+ "villages": 6222,
+ "date": "2024-10-09",
+ "rule": "any mapped flood water in the 500 m box around the village",
+ "high_flooded": 0.3471824259789876,
+ "medium_flooded": 0.15262636273538158,
+ "low_flooded": 0.03696682464454976,
+ "ratio": 9.391729728405945,
+ "high_over_5pct": 0.1174785100286533,
+ "medium_over_5pct": 0.007928642220019821,
+ "low_over_5pct": 0.00047393364928909954,
+ "high_n": 2094,
+ "medium_n": 2018,
+ "low_n": 2110
+}

@@ -12,13 +12,15 @@ import numpy as np
 import pandas as pd
 
 from sajag import river_model as R
-from sajag.features import PLACE_FEATURES, STATE_FEATURES
+from sajag.features import STATE_FEATURES
 
 LOCAL = ["r3", "r7", "r15", "r30", "soil_root", "up_r3", "up_r7", "up_r15",
          "q_max", "q_log_p99", "q_days_high", "g_pct", "g_over", "g_up_r7"]
 GANGA_FORECAST = [f"g_{kind}{lead}" for lead in (3, 7) for kind in ("pk", "ex")]
 RIVER_FORECAST = [f"{kind}{lead}" for lead in R.LEADS for kind in ("pk", "ex")] + GANGA_FORECAST
-FEATURES = LOCAL + STATE_FEATURES + PLACE_FEATURES
+# No day-of-year input. Version 1 had one, and it learned that late September is safe from the
+# few events it saw: on 28 Sept 2024 it gave Darbhanga 0.3% with 161 mm of rain in 3 days.
+FEATURES = LOCAL + STATE_FEATURES + ["lat", "lon"]
 RISING = set(LOCAL) | set(RIVER_FORECAST) | set(STATE_FEATURES)
 SEEDS = (1, 2, 3, 4, 5)
 PARAMS = dict(

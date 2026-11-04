@@ -1,0 +1,121 @@
+"""Warning messages for basic phones.
+
+A Devanagari SMS is sent as Unicode, so one message holds 70 characters, not 160. Every template
+is tested against the longest district name. The Maithili and Bhojpuri text is a draft by an AI
+tool and has not been checked by a native speaker.
+"""
+DISTRICT_HI = {
+    "araria": "अररिया", "arwal": "अरवल", "aurangabad": "औरंगाबाद", "banka": "बांका",
+    "begusarai": "बेगूसराय", "bhagalpur": "भागलपुर", "bhojpur": "भोजपुर", "buxar": "बक्सर",
+    "darbhanga": "दरभंगा", "east_champaran": "पूर्वी चंपारण", "gaya": "गया",
+    "gopalganj": "गोपालगंज", "jamui": "जमुई", "jehanabad": "जहानाबाद", "kaimur": "कैमूर",
+    "katihar": "कटिहार", "khagaria": "खगड़िया", "kishanganj": "किशनगंज",
+    "lakhisarai": "लखीसराय", "madhepura": "मधेपुरा", "madhubani": "मधुबनी", "munger": "मुंगेर",
+    "muzaffarpur": "मुजफ्फरपुर", "nalanda": "नालंदा", "nawada": "नवादा", "patna": "पटना",
+    "purnia": "पूर्णिया", "rohtas": "रोहतास", "saharsa": "सहरसा", "samastipur": "समस्तीपुर",
+    "saran": "सारण", "sheikhpura": "शेखपुरा", "sheohar": "शिवहर", "sitamarhi": "सीतामढ़ी",
+    "siwan": "सीवान", "supaul": "सुपौल", "vaishali": "वैशाली",
+    "west_champaran": "पश्चिमी चंपारण",
+}
+
+LANGUAGES = [
+    {"id": "hi", "name": "हिन्दी"}, {"id": "mai", "name": "मैथिली"},
+    {"id": "bho", "name": "भोजपुरी"}, {"id": "en", "name": "English"},
+]
+
+TEMPLATES = {
+    "hi": {
+        "1": {
+            "sms": "सजग: {district} में {days} दिन में बाढ़ संभव। तैयार रहें। 1070",
+            "voice": "यह सजग की बाढ़ सूचना है। अगले {days} दिनों में {district} जिले में बाढ़ आ "
+                     "सकती है। नदी के किनारे न जाएँ। जरूरी कागज, दवा और पीने का पानी एक जगह रख "
+                     "लें। मदद के लिए 1070 पर फोन करें।",
+        },
+        "2": {
+            "sms": "चेतावनी: {district}, {days} दिन में बाढ़ का खतरा। ऊँची जगह देखें। 1070",
+            "voice": "यह सजग की बाढ़ चेतावनी है। अगले {days} दिनों में {district} जिले में बाढ़ का "
+                     "खतरा है। बच्चों, बुजुर्गों और पशुओं को ऊँची जगह ले जाने की तैयारी करें। "
+                     "सरकारी निर्देश मानें। मदद के लिए 1070 पर फोन करें।",
+        },
+        "3": {
+            "sms": "गंभीर खतरा: {district} में बाढ़। अभी ऊँची जगह जाएँ। मदद 1070",
+            "voice": "यह सजग की गंभीर बाढ़ चेतावनी है। {district} जिले में बाढ़ का बड़ा खतरा है। "
+                     "अभी ऊँची जगह चले जाएँ। बहते पानी में न उतरें। सरकारी निर्देश मानें। मदद के "
+                     "लिए 1070 पर फोन करें।",
+        },
+    },
+    "mai": {
+        "1": {
+            "sms": "सजग: {district} मे {days} दिन मे बाढ़ि संभव। तैयार रहू। 1070",
+            "voice": "ई सजगक बाढ़ि सूचना अछि। अगिला {days} दिन मे {district} जिला मे बाढ़ि आबि सकैत "
+                     "अछि। नदीक कात नहि जाउ। जरूरी कागज, दवाई आ पीबाक पानि एक ठाम राखू। मदद लेल "
+                     "1070 पर फोन करू।",
+        },
+        "2": {
+            "sms": "चेतावनी: {district} मे {days} दिन मे बाढ़िक खतरा। ऊँच जगह देखू। 1070",
+            "voice": "ई सजगक बाढ़ि चेतावनी अछि। अगिला {days} दिन मे {district} जिला मे बाढ़िक खतरा "
+                     "अछि। बच्चा, बूढ़ आ माल-जाल केँ ऊँच जगह ल जेबाक तैयारी करू। सरकारी निर्देश मानू। "
+                     "मदद लेल 1070 पर फोन करू।",
+        },
+        "3": {
+            "sms": "गंभीर खतरा: {district} मे बाढ़ि। एखने ऊँच जगह जाउ। मदद 1070",
+            "voice": "ई सजगक गंभीर बाढ़ि चेतावनी अछि। {district} जिला मे बाढ़िक पैघ खतरा अछि। एखने "
+                     "ऊँच जगह चलि जाउ। बहैत पानि मे नहि उतरू। मदद लेल 1070 पर फोन करू।",
+        },
+    },
+    "bho": {
+        "1": {
+            "sms": "सजग: {district} में {days} दिन में बाढ़ आ सकेला। तैयार रहीं। 1070",
+            "voice": "ई सजग के बाढ़ सूचना बा। अगिला {days} दिन में {district} जिला में बाढ़ आ सकेला। "
+                     "नदी के किनारे मत जाईं। जरूरी कागज, दवाई आ पिए के पानी एक जगह राखीं। मदद खातिर "
+                     "1070 पर फोन करीं।",
+        },
+        "2": {
+            "sms": "चेतावनी: {district}, {days} दिन में बाढ़ के खतरा। ऊँच जगह देखीं। 1070",
+            "voice": "ई सजग के बाढ़ चेतावनी बा। अगिला {days} दिन में {district} जिला में बाढ़ के खतरा "
+                     "बा। लइका, बूढ़ आ मवेशी के ऊँच जगह ले जाए के तैयारी करीं। सरकारी निर्देश मानीं। "
+                     "मदद खातिर 1070 पर फोन करीं।",
+        },
+        "3": {
+            "sms": "गंभीर खतरा: {district} में बाढ़। अबहीं ऊँच जगह जाईं। मदद 1070",
+            "voice": "ई सजग के गंभीर बाढ़ चेतावनी बा। {district} जिला में बाढ़ के बड़ खतरा बा। अबहीं "
+                     "ऊँच जगह चल जाईं। बहत पानी में मत उतरीं। मदद खातिर 1070 पर फोन करीं।",
+        },
+    },
+    "en": {
+        "1": {
+            "sms": "SAJAG: Flood possible in {district} within {days} days. Keep documents, "
+                   "medicine and water ready. Help: 1070",
+            "voice": "This is a Sajag flood notice. A flood is possible in {district} district "
+                     "within {days} days. Stay away from the river bank. Keep documents, medicine "
+                     "and drinking water together. For help, call 1070.",
+        },
+        "2": {
+            "sms": "SAJAG WARNING: Flood risk in {district} within {days} days. Plan to move "
+                   "children, elders and animals to high ground. Help: 1070",
+            "voice": "This is a Sajag flood warning. There is a risk of flood in {district} "
+                     "district within {days} days. Plan to move children, elders and animals to "
+                     "high ground. Follow government instructions. For help, call 1070.",
+        },
+        "3": {
+            "sms": "SAJAG SEVERE: Serious flood danger in {district}. Move to high ground now. "
+                   "Do not enter moving water. Help: 1070",
+            "voice": "This is a severe Sajag flood warning. There is serious flood danger in "
+                     "{district} district. Move to high ground now. Do not enter moving water. "
+                     "Follow government instructions. For help, call 1070.",
+        },
+    },
+}
+
+SMS_LIMIT = {"hi": 70, "mai": 70, "bho": 70, "en": 160}
+
+
+def district_name(key: str, language: str) -> str:
+    if language == "en":
+        return key.replace("_", " ").title()
+    return DISTRICT_HI[key]
+
+
+def render(language: str, level: int, district: str, days: int, kind: str = "sms") -> str:
+    text = TEMPLATES[language][str(level)][kind]
+    return text.format(district=district_name(district, language), days=days)

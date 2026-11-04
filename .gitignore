@@ -10,3 +10,7 @@ data/raw/
 data/*.log
 data/processed/_*
 data/stale/
+data/processed/*.parquet
+data/train.log
+web/dev/shots/
+data/smoke.log

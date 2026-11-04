@@ -5,7 +5,7 @@ description = "Flood and drought early warning for Bihar, scored against recorde
 requires-python = ">=3.11"
 dependencies = [
   "numpy>=1.26", "pandas>=2.2", "pyarrow>=15", "requests>=2.31",
-  "scikit-learn>=1.5", "lightgbm>=4.3", "joblib>=1.4",
+  "scikit-learn>=1.5", "lightgbm>=4.3", "scipy>=1.11",
 ]
 
 [project.optional-dependencies]
@@ -20,3 +20,7 @@ testpaths = ["tests"]
 
 [tool.ruff]
 line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
+ignore = ["E501"]  # Devanagari strings count wider than they read

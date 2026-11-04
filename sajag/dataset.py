@@ -6,7 +6,7 @@ import pandas as pd
 
 from sajag import features as F
 from sajag import river_model as R
-from sajag.config import PROCESSED, RAW, SITES
+from sajag.config import PROCESSED, RAW, ROOT, SITES
 from sajag.geo import bihar_districts
 from sajag.sources import ifi
 
@@ -87,6 +87,11 @@ def flood_labels(world: World, leads: tuple[int, ...]):
     """Clean river-flood events, the flooded table, and per-day targets for the labelled years."""
     keys = sorted(world.districts["key"])
     events = ifi.load_river_floods(RAW / "ifi_v3.csv", set(keys), first_year=LABEL_START)
+    # The inventory names all 38 districts for the August 2016 Ganga flood, so the filter above
+    # drops it. This sourced list puts Bihar's biggest Ganga flood back in the training set.
+    extra = pd.read_csv(ROOT / "data" / "reference" / "extra_training_events.csv",
+                        parse_dates=["start", "end"])
+    events = pd.concat([events, extra.drop(columns="source")], ignore_index=True)
     days = pd.date_range(f"{LABEL_START}-01-01", f"{LABEL_END}-12-31")
     flooded = ifi.flood_days(events, days, keys)
     return events, flooded, F.targets(flooded, leads)

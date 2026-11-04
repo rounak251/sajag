@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sajag: flood and drought early warning for Bihar</title>
+  <meta name="description" content="Research prototype. District flood risk, river flow and drought for Bihar, replayed day by day against recorded floods.">
+  <meta name="theme-color" content="#F6F1E7">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="vendor/fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="vendor/fonts/fonts.css">
+  <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
+  <link rel="stylesheet" href="css/sajag.css">
+  <script src="vendor/leaflet/leaflet.js" defer></script>
+  <script type="module" src="js/main.js"></script>
+</head>
+<body>
+  <!-- Fills shared by the map, the legend and every level chip, so a level always looks the same. -->
+  <svg class="defs" width="0" height="0" aria-hidden="true" focusable="false">
+    <defs>
+      <pattern id="lv1" width="7" height="7" patternUnits="userSpaceOnUse">
+        <rect width="7" height="7" fill="#D9932A"/>
+        <circle cx="1.75" cy="1.75" r="0.8" fill="#A66D14"/>
+        <circle cx="5.25" cy="5.25" r="0.8" fill="#A66D14"/>
+      </pattern>
+      <pattern id="lv2" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+        <rect width="5" height="5" fill="#B85419"/>
+        <rect width="1.5" height="5" fill="#8E3D0E"/>
+      </pattern>
+      <pattern id="lv3" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+        <rect width="5" height="5" fill="#7C2512"/>
+        <rect width="1.4" height="5" fill="#541406"/>
+        <rect width="5" height="1.4" fill="#541406"/>
+      </pattern>
+      <pattern id="dr1" width="8" height="8" patternUnits="userSpaceOnUse">
+        <rect width="8" height="8" fill="#D2B98C"/>
+        <circle cx="2" cy="2" r="0.8" fill="#8F7445"/>
+        <circle cx="6" cy="6" r="0.8" fill="#8F7445"/>
+      </pattern>
+      <pattern id="dr2" width="6" height="6" patternUnits="userSpaceOnUse">
+        <rect width="6" height="6" fill="#A5834F"/>
+        <circle cx="1.5" cy="1.5" r="0.9" fill="#6B5128"/>
+        <circle cx="4.5" cy="4.5" r="0.9" fill="#6B5128"/>
+      </pattern>
+      <pattern id="dr3" width="5" height="5" patternUnits="userSpaceOnUse">
+        <rect width="5" height="5" fill="#5F4522"/>
+        <circle cx="1.25" cy="1.25" r="0.9" fill="#37260E"/>
+        <circle cx="3.75" cy="3.75" r="0.9" fill="#37260E"/>
+      </pattern>
+    </defs>
+  </svg>
+
+  <a class="skip" href="#main">Skip to content</a>
+  <div class="top" id="top">
+  <p id="mock-banner" class="mock-banner" hidden></p>
+  <header class="mast">
+    <a class="brand" href="#/map" aria-label="Sajag, home">
+      <span class="brand-word">Sajag</span>
+      <span class="brand-hi" lang="hi">सजग</span>
+    </a>
+    <p class="brand-line">Flood and drought early warning for Bihar</p>
+    <nav class="tabs-main" aria-label="Sections">
+      <a href="#/map" data-route="map">Flood map</a>
+      <a href="#/evidence" data-route="evidence">Evidence</a>
+      <a href="#/today" data-route="today">Today</a>
+    </nav>
+    <a id="today-strip" class="today-strip" href="#/today" hidden></a>
+  </header>
+  </div>
+
+  <main id="main" tabindex="-1">
+    <section id="screen-map" class="screen screen-map" aria-label="Flood map">
+      <div class="stage">
+        <div id="stories" class="stories"></div>
+        <div id="controls" class="controls"></div>
+        <div class="mapwrap">
+          <div class="mapcol">
+            <div id="map" role="application" aria-label="Map of the districts of Bihar. Use the district list beside the map to choose a district by keyboard."></div>
+            <div id="map-tools" class="map-tools"></div>
+          </div>
+          <div class="keycol">
+            <div id="map-head" class="map-head"></div>
+            <div id="legend" class="legend"></div>
+          </div>
+        </div>
+        <div id="timeline" class="timeline"></div>
+      </div>
+      <aside id="panel" class="panel" aria-label="District details"></aside>
+    </section>
+    <section id="screen-evidence" class="screen screen-doc" aria-label="Evidence" hidden></section>
+    <section id="screen-today" class="screen screen-doc" aria-label="Today" hidden></section>
+  </main>
+
+  <footer class="foot">
+    <p><strong>Research prototype. This is not an official warning.</strong> In a flood or drought, follow instructions from IMD, CWC and BSDMA.</p>
+    <p lang="hi">यह शोध प्रोटोटाइप है, आधिकारिक चेतावनी नहीं। बाढ़ या सूखे में IMD, CWC और BSDMA के निर्देश मानें।</p>
+  </footer>
+
+  <div id="tip" class="tip" hidden></div>
+  <noscript><p class="fatal">This page needs JavaScript to draw the map.</p></noscript>
+</body>
+</html>

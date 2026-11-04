@@ -1,0 +1,29 @@
+{
+  "data_story": [
+    "IMD's records change shape around 2005. Earlier rows list all 38 districts for weeks at a time, and later rows are dated events. Mixing them taught the first experiments the calendar, so training uses 2006 to 2023 only.",
+    "Day and month are swapped in some rows. \"07-11-2017\" with a 3-day duration ending 13 July means 11 July, not 7 November. Durations and the order of record IDs repaired 10 of the 119 events since 1985.",
+    "Of 59 monsoon events since 2006, only 25 describe river flooding. The rest are heavy-rain deaths, so they are not used as flood labels.",
+    "That cleanup went too far once: it dropped the August 2016 Ganga flood, because the row names all 38 districts. The model then barely knew the Ganga. The flood is back, using the 12 districts named by Bihar's Disaster Management Department.",
+    "Only 1 of the 25 training floods began on or after 15 September, and version 1 read that as a safe season. It gave Darbhanga 0.3% on 28 September 2024, with 161 mm of rain in 3 days. Version 2 has no calendar input.",
+    "An early experiment looked better than it should have because it ran while the river download was unfinished. The flag saying the download was done had been written by the rain job. The script no longer uses that flag.",
+    "A river-forecast input to the district model and a separate Ganga signal both made no measurable difference to the final scores. The river forecast stands as its own product, with its own test.",
+    "The rain-forecast rule first took the nearest river for every district, which tied Banka and Nawada to the Kosi and put all 38 districts on Warning in September 2024. Districts south of the Ganga now use their own rain, plus the Sone where that river runs.",
+    "The forecast archive starts in January 2024, so the plan to set thresholds from 2022 and 2023 forecasts could not work. Thresholds come from rain that really fell in 2006 to 2023 instead."
+  ],
+  "limits": [
+    "Version 2's results are not blind. It was built after seeing version 1 fail on these same floods, so they show promise, not proof. The next monsoon is the real test, and every forecast is committed to git before its outcome is known.",
+    "It missed the 2024 Ganga flood completely: 0 of 7 districts had a Warning before the first report.",
+    "Five floods is a small test. At this alert rate, chance alone would catch about 13 of the 46.",
+    "It alerts on about 11% of monsoon district days, roughly 17 days per district per season, which is double the design. Many alerts will not be followed by a flood.",
+    "It is better at saying when than where. In August 2025 it warned 5 of 7 named districts and 21 of 31 others.",
+    "The last fix, keeping Nepal rain out of districts south of the Ganga, also lowered the Warning threshold from 138 mm to 125 mm. Part of the final score comes from that side effect, not from better skill.",
+    "In cross-validation on 2006 to 2023, the observed-data model's lead over a simple 3-day rain rule is not statistically clear.",
+    "River flows are GloFAS model output, not gauge readings, so river skill is measured against that model.",
+    "A first report is the day the press first named a district. Water may have arrived earlier, so some warnings may have come after flooding began.",
+    "Flood records are incomplete, so false alarm counts cannot be exact.",
+    "Archived forecasts start in January 2024, so the rain-forecast rule has only ever been tested on these three monsoons.",
+    "Village exposure was checked on one flood, on one date, in one area, using a flood map that is itself a model. Village lists are thin for Sheohar and Sitamarhi.",
+    "Maithili and Bhojpuri messages were drafted by an AI tool and need review by native speakers.",
+    "This is a research prototype, not an official warning. Follow instructions from IMD, CWC and BSDMA."
+  ]
+}
