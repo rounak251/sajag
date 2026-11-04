@@ -132,3 +132,11 @@ def to_district(pred: pd.DataFrame, near: dict[str, list[str]]) -> pd.DataFrame:
     out = pd.concat(frames, names=["district"]).swaplevel().sort_index()
     out.index.names = ["date", "district"]
     return out
+
+
+def district_forecast(pred: pd.DataFrame, groups: dict) -> pd.DataFrame:
+    """Tributary forecast per district, plus the nearest Ganga site's as g_ columns."""
+    ganga = pred[[c for c in pred.columns if c[-1] in "37"]]
+    return to_district(pred, groups["trib"]).join(
+        to_district(ganga, groups["ganga"]).add_prefix("g_"),
+    )

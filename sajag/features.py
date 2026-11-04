@@ -16,9 +16,13 @@ BASIN_FEATURES = ["up_r1", "up_r3", "up_r7", "up_r15"]
 RIVER_FEATURES = [
     "q_near", "q_max", "q_mean", "q_log_p99", "q_rise1", "q_rise3", "q_rise7", "q_days_high",
 ]
-STATE_FEATURES = ["state_r3", "state_wet", "state_sites_high"]
+GANGA_FEATURES = ["g_pct", "g_over", "g_rise3", "g_up_r7"]
+STATE_FEATURES = ["state_r3", "state_wet", "state_sites_high", "state_ganga_high"]
 PLACE_FEATURES = ["lat", "lon", "doy"]
-FEATURES = RAIN_FEATURES + BASIN_FEATURES + RIVER_FEATURES + STATE_FEATURES + PLACE_FEATURES
+FEATURES = (
+    RAIN_FEATURES + BASIN_FEATURES + RIVER_FEATURES + GANGA_FEATURES + STATE_FEATURES
+    + PLACE_FEATURES
+)
 
 
 def nearest_sites(districts: pd.DataFrame, sites: pd.DataFrame, k: int = NEAREST_SITES) -> dict:
@@ -28,6 +32,18 @@ def nearest_sites(districts: pd.DataFrame, sites: pd.DataFrame, k: int = NEAREST
         dist = np.hypot((sites["lat"] - d.lat), (sites["lon"] - d.lon) * np.cos(np.radians(d.lat)))
         out[d.key] = sites.iloc[np.argsort(dist.values)[:k]]["site_id"].tolist()
     return out
+
+
+def river_groups(districts: pd.DataFrame, sites: pd.DataFrame) -> dict[str, dict]:
+    """Nearest tributary sites and nearest Ganga site for each district, kept apart.
+
+    The fast Nepal-fed tributaries and the huge, slow Ganga are different hazards. Taking the
+    worst of both lets the Ganga drown out the tributary signal for most of the state.
+    """
+    return {
+        "trib": nearest_sites(districts, sites[sites["river"] != "Ganga"]),
+        "ganga": nearest_sites(districts, sites[sites["river"] == "Ganga"], 1),
+    }
 
 
 def river_reference(q: pd.DataFrame) -> dict[str, np.ndarray]:
@@ -89,8 +105,10 @@ def build(
     ref: dict[str, np.ndarray],
 ) -> pd.DataFrame:
     """Long table of features indexed by (date, district)."""
-    near = nearest_sites(districts, sites)
+    groups = river_groups(districts, sites)
     river_of = dict(zip(sites["site_id"], sites["river"]))
+    ganga_ids = sites.loc[sites["river"] == "Ganga", "site_id"].tolist()
+    trib_ids = sites.loc[sites["river"] != "Ganga", "site_id"].tolist()
     tables = river_tables(q, ref)
     basins = basin_rain(upstream)
     basin_sums = {n: basins.rolling(n, min_periods=1).sum() for n in (1, 3, 7, 15)}
@@ -100,7 +118,8 @@ def build(
         "state_r3": r3_all.mean(axis=1),
         "state_wet": (r3_all > 50).mean(axis=1),
     })
-    state["state_sites_high"] = (tables["pct"] >= 0.95).sum(axis=1).reindex(state.index)
+    state["state_sites_high"] = (tables["pct"][trib_ids] >= 0.95).sum(axis=1).reindex(state.index)
+    state["state_ganga_high"] = (tables["pct"][ganga_ids] >= 0.95).sum(axis=1).reindex(state.index)
 
     frames = []
     for d in districts.itertuples():
@@ -108,7 +127,7 @@ def build(
         f["soil_top"] = soil_top[d.key]
         f["soil_root"] = soil_root[d.key]
 
-        site_ids = near[d.key]
+        site_ids = groups["trib"][d.key]
         rivers = sorted({river_of[s] for s in site_ids} & set(basins.columns))
         for n in (1, 3, 7, 15):
             f[f"up_r{n}"] = basin_sums[n][rivers].max(axis=1).reindex(f.index)
@@ -122,6 +141,12 @@ def build(
         f["q_rise3"] = tables["rise3"][site_ids].max(axis=1).reindex(f.index)
         f["q_rise7"] = tables["rise7"][site_ids].max(axis=1).reindex(f.index)
         f["q_days_high"] = tables["high"][site_ids].max(axis=1).reindex(f.index)
+
+        ganga = groups["ganga"][d.key][0]
+        f["g_pct"] = tables["pct"][ganga].reindex(f.index)
+        f["g_over"] = tables["over"][ganga].reindex(f.index)
+        f["g_rise3"] = tables["rise3"][ganga].reindex(f.index)
+        f["g_up_r7"] = basin_sums[7]["Ganga"].reindex(f.index)
 
         f = f.join(state)
         f["lat"], f["lon"] = d.lat, d.lon

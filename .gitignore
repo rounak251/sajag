@@ -9,3 +9,4 @@ data/raw/
 .env
 data/*.log
 data/processed/_*
+data/stale/

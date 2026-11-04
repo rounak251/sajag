@@ -1,5 +1,4 @@
 """Download everything the model learns from. Safe to re-run: finished files are skipped."""
-import json
 import sys
 import time
 
@@ -98,7 +97,6 @@ def main() -> None:
     if what in ("all", "glofas"):
         sites = snap_sites()
         fetch_discharge(sites)
-    (PROCESSED / "fetch_done.json").write_text(json.dumps({"end": END}))
 
 
 if __name__ == "__main__":

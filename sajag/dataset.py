@@ -1,14 +1,37 @@
-"""Assemble the model table from downloaded files."""
+"""Load downloaded files into the tables the models use."""
+from dataclasses import dataclass
+
+import numpy as np
 import pandas as pd
 
 from sajag import features as F
-from sajag.config import PROCESSED, RAW
+from sajag import river_model as R
+from sajag.config import PROCESSED, RAW, SITES
 from sajag.geo import bihar_districts
 from sajag.sources import ifi
 
-START_YEAR = 1997  # first year of GloFAS history available through the API
-LAST_LABEL_YEAR = 2023  # the inventory stops here
-LEADS = (1, 3, 5, 7)
+RIVER_START = 1997  # GloFAS history through the API starts here
+LABEL_START = 2006  # the flood record is event by event from here
+LABEL_END = 2023  # the flood record stops here
+MONSOON = (6, 7, 8, 9, 10)
+
+
+@dataclass
+class World:
+    districts: pd.DataFrame
+    sites: pd.DataFrame
+    near: dict
+    ref: dict
+    q: pd.DataFrame
+    site_table: pd.DataFrame
+    district_table: pd.DataFrame
+
+
+def load_sites() -> pd.DataFrame:
+    """Snapped sites in config order, which runs top to bottom along each river."""
+    sites = pd.read_csv(PROCESSED / "sites.csv").set_index("site_id")
+    order = [s[0] for s in SITES if s[0] in sites.index]
+    return sites.reindex(order).reset_index()
 
 
 def load_points() -> dict[str, pd.DataFrame]:
@@ -28,29 +51,46 @@ def load_points() -> dict[str, pd.DataFrame]:
 
 
 def load_discharge() -> pd.DataFrame:
-    cols = {
-        p.stem: pd.read_parquet(p)["q"] for p in sorted((RAW / "glofas").glob("*.parquet"))
-    }
+    cols = {p.stem: pd.read_parquet(p)["q"] for p in sorted((RAW / "glofas").glob("*.parquet"))}
     return pd.DataFrame(cols).sort_index()
 
 
-def model_table() -> tuple[pd.DataFrame, pd.DataFrame]:
-    """Features with labels for June to October, and the raw flood events."""
-    districts = bihar_districts()
-    sites = pd.read_csv(PROCESSED / "sites.csv")
-    points = load_points()
-    q = load_discharge()
-    ref = F.river_reference(q)
-    table = F.build(
-        points["rain"], points["soil_top"], points["soil_root"], points["upstream"], q,
-        districts, sites[sites.site_id.isin(q.columns)], ref,
-    )
-    events = ifi.load_events(RAW / "ifi_v3.csv", set(districts.key))
-    days = pd.date_range(f"{START_YEAR}-01-01", table.index.get_level_values("date").max())
-    flooded = ifi.flood_days(events, days, sorted(districts.key))
-    labels = F.targets(flooded, LEADS)
-    table = table.join(labels, how="inner")
-
+def _monsoon(table: pd.DataFrame, first_year: int) -> pd.DataFrame:
     dates = table.index.get_level_values("date")
-    keep = (dates.year >= START_YEAR) & dates.month.isin([6, 7, 8, 9, 10])
-    return table[keep], events
+    return table[(dates.year >= first_year) & dates.month.isin(MONSOON)]
+
+
+def load_world() -> World:
+    districts = bihar_districts()
+    sites = load_sites()
+    points = load_points()
+    q = load_discharge()[sites["site_id"].tolist()]
+    last = min(q.dropna(how="all").index.max(), points["rain"].dropna(how="all").index.max())
+    q = q.loc[:last]
+    points = {k: v.loc[:last] for k, v in points.items()}
+    ref = F.river_reference(q)
+    district_table = F.build(
+        points["rain"], points["soil_top"], points["soil_root"], points["upstream"], q,
+        districts, sites, ref,
+    )
+    site_table = R.site_table(
+        q, ref, points["upstream"], points["rain"], points["soil_root"], sites, districts,
+    )
+    return World(
+        districts=districts, sites=sites, near=F.river_groups(districts, sites), ref=ref, q=q,
+        site_table=_monsoon(site_table, RIVER_START),
+        district_table=_monsoon(district_table, LABEL_START),
+    )
+
+
+def flood_labels(world: World, leads: tuple[int, ...]):
+    """Clean river-flood events, the flooded table, and per-day targets for the labelled years."""
+    keys = sorted(world.districts["key"])
+    events = ifi.load_river_floods(RAW / "ifi_v3.csv", set(keys), first_year=LABEL_START)
+    days = pd.date_range(f"{LABEL_START}-01-01", f"{LABEL_END}-12-31")
+    flooded = ifi.flood_days(events, days, keys)
+    return events, flooded, F.targets(flooded, leads)
+
+
+def years_of(table: pd.DataFrame) -> np.ndarray:
+    return table.index.get_level_values("date").year.values
