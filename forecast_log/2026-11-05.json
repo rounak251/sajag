@@ -1,6 +1,10 @@
 {
 "issued": "2026-11-05",
 "season_active": false,
+"degraded": {
+"forecast_models_short": [],
+"rain_values_missing": 0
+},
 "districts": {
 "araria": {
 "level": 0,

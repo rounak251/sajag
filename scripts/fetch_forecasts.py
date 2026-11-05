@@ -2,6 +2,8 @@
 import sys
 import time
 
+import requests
+
 from sajag.config import RAW, UPSTREAM
 from sajag.geo import bihar_districts
 from sajag.sources import nwp
@@ -22,12 +24,18 @@ def main() -> None:
                 path = folder / f"{model}__{name}__{year}.parquet"
                 if path.exists():
                     continue
-                try:
-                    df = nwp.archived(lat, lon, f"{year}-05-25", f"{year}-10-31", model)
-                except nwp.RateLimited as err:
-                    print("limit, waiting", err, flush=True)
-                    time.sleep(900)
-                    df = nwp.archived(lat, lon, f"{year}-05-25", f"{year}-10-31", model)
+                for attempt in range(6):
+                    try:
+                        df = nwp.archived(lat, lon, f"{year}-05-25", f"{year}-10-31", model)
+                        break
+                    except nwp.RateLimited as err:
+                        print("limit, waiting", err, flush=True)
+                        time.sleep(900)
+                    except requests.RequestException as err:
+                        print("network, retrying", type(err).__name__, flush=True)
+                        time.sleep(60 * (attempt + 1))
+                else:
+                    raise SystemExit(f"gave up on {name} {year} {model}")
                 df.to_parquet(path)
                 done += 1
                 if done % 25 == 0:

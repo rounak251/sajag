@@ -32,8 +32,8 @@ function hero(m) {
     h('p', { class: 'hero-line', text: 'recorded district floods in 2024 to 2026 got a Warning at least 3 days ahead. Cross-validation had promised ' + fmtPct(v1.cv?.caught_3d) + '. The list of floods was committed to git before any prediction existed.' }),
     h('p', { class: 'doc-n hero-next', text: 'Version 2, after the failure, not blind' }),
     h('p', { class: 'hero-figure hero-figure-2', id: 'hero-figure-2', text: of(s.warned_3d, v2.district_events) }),
-    h('p', { class: 'hero-line', text: `of the same floods, using rain forecasts as really issued at the time. Chance alone would catch about ${fmtDec(chance?.chance_mean ?? 0, 0)}.` }),
-    h('p', { class: 'hero-sub', text: `A 3-day rain rule catches ${v2.totals.rain_matched?.warned_3d} and river level ${v2.totals.river_matched?.warned_3d} when given the same number of alerts, with thresholds set in hindsight.` }));
+    h('p', { class: 'hero-line', text: `of the same floods, using only what a morning run at 08:00 IST would have had. Chance alone would catch about ${fmtDec(chance?.chance_mean ?? 0, 0)}.` }),
+    h('p', { class: 'hero-sub', text: `Most of that comes from rain forecasts, not machine learning. With the same number of alerts and thresholds set in hindsight, a plain forecast threshold catches ${v2.totals.forecast_matched?.warned_3d} and forecast or river level catches ${v2.totals.forecast_or_river?.warned_3d}. Without any forecast, 3-day rain catches ${v2.totals.rain_matched?.warned_3d} and river level ${v2.totals.river_matched?.warned_3d}.` }));
 }
 
 function limits(m) {
@@ -78,7 +78,7 @@ function budgetCompare(m) {
   const k = m.headline ?? {};
   const gap = Array.isArray(k.rain_difference_ci) ? k.rain_difference_ci : null;
   return section(3, 'Cross-validation on 2006 to 2023',
-    `Every method may alert on the same share of district days. Each year block is scored by a model that never saw it. This test uses no rain forecasts, and it is the kind of test that wrongly favoured version 1.${gap ? ` The lead over the rain rule runs from ${fmtPct(gap[0])} to ${fmtPct(gap[1])} in points, which includes zero, so it could be chance.` : ''}`,
+    `Every method may alert on the same share of district days. Each year block is scored by a model that never saw it. This test uses no rain forecasts, and it is the kind of test that wrongly favoured version 1. Inputs here are complete NASA data, which a live run does not have.${gap ? ` The lead over the rain rule runs from ${fmtPct(gap[0])} to ${fmtPct(gap[1])} in points, which includes zero, so it could be chance.` : ''}`,
     picker, slot);
 }
 
@@ -110,7 +110,7 @@ function riverSkill(m) {
     }));
   }
   return section(2, 'River forecast: the part that passed',
-    `Scored on 2024 to 2026, which it never trained on, and unchanged since the blind run. Persistence assumes the river stays as it is today. The target is GloFAS modelled flow, not gauge readings.`,
+    `Scored on 2024 to 2026, which it never trained on, and unchanged since the blind run. Persistence assumes the river stays as it is today. The target is GloFAS modelled flow, not gauge readings, and the GloFAS series changes product on 5 August 2023, so the model was trained on one product and tested on another.`,
     grid,
     tableTwin('River skill by lead time', [
       { label: 'Days ahead', key: 'lead', num: true },
@@ -221,10 +221,13 @@ function blindTest(m) {
   const rate = (v1.alert_rate ?? []).map((r) => `${fmtPct(r.sajag, 1)} in ${r.year}`).join(', ');
   const rows = v2?.totals ? [
     { name: 'Sajag, version 2', key: 'sajag' },
-    { name: 'Observed-data model alone', key: 'model_only' },
-    { name: 'Rain-forecast rule alone', key: 'forecast_only' },
+    { name: 'Forecast or river, no ML, same alert rate', key: 'forecast_or_river' },
+    { name: 'Forecast threshold, no ML, same alert rate', key: 'forecast_matched' },
     { name: '3-day rain, same alert rate', key: 'rain_matched' },
     { name: 'River level, same alert rate', key: 'river_matched' },
+    { name: 'Rain-forecast rule alone', key: 'forecast_only' },
+    { name: 'Observed-data model alone', key: 'model_only' },
+    { name: 'Sajag with complete NASA data, not possible live', key: 'complete_data' },
   ].filter((r) => v2.totals[r.key]).map((r) => ({
     name: r.name, warned: v2.totals[r.key].warned_3d, rate: v2.totals[r.key].alert_rate,
     chance: v2.placebo?.[r.key]?.chance_mean, top: v2.placebo?.[r.key]?.chance_p95,
@@ -239,20 +242,23 @@ function blindTest(m) {
       { label: 'River level rule', key: 'river_3d', num: true },
     ], 'blind-table'),
     v2?.events?.length ? h('h3', { class: 'sub-title', text: 'Version 2, not blind' }) : null,
-    v2?.events?.length ? h('p', { class: 'read', text: 'Three changes: no calendar input, the 2016 Ganga flood restored to training, and a rule that raises the alert when extreme rain is forecast. The forecasts are the ones really issued at the time, so nothing from the future leaks in. But these changes were made after seeing the failure above, so this is not a clean test.' }) : null,
+    v2?.events?.length ? h('p', { class: 'read', text: 'Three changes: no calendar input, the 2016 Ganga flood restored to training, and a rule that raises the alert when extreme rain is forecast. Scoring uses only what a morning run at 08:00 IST would have had. But these changes were made after seeing the failure above, so this is not a clean test.' }) : null,
     v2?.events?.length ? floodTable('Version 2 on the same floods', v2.events, [
-      { label: '3-day rain, same alerts', key: 'rain_3d', num: true },
-      { label: 'River level, same alerts', key: 'river_3d', num: true },
+      { label: 'Forecast or river, no ML', key: 'combo_3d', num: true },
+      { label: 'Forecast, no ML', key: 'forecast_3d', num: true },
+      { label: '3-day rain', key: 'rain_3d', num: true },
+      { label: 'River level', key: 'river_3d', num: true },
     ], 'v2-table') : null,
+    v2?.first_listed ? h('p', { class: 'read', text: `Some hits are weaker than they look. ${v2.first_listed.warned_3d} of the ${v2.first_listed.districts} districts named in the first report were warned, and the rest were named days after their flood had begun. For ${v2.already_on_8_days_before} of the ${v2.district_events}, an alert was already running 8 days before, so a 7-day lead is the most this table can show.` }) : null,
     v2?.spatial?.length ? h('h3', { class: 'sub-title', text: 'Right place, or everywhere?' }) : null,
-    v2?.spatial?.length ? h('p', { class: 'read', text: 'Districts named in reports against all others, in the same 7 to 3 days before the first report. Press lists are incomplete, so some other districts may really have flooded, but a warning that covers everywhere helps nobody.' }) : null,
+    v2?.spatial?.length ? h('p', { class: 'read', text: 'Districts named in reports against all others, over the same 7 to 3 days before each report. Press lists are incomplete, so some other districts may really have flooded, but a warning that covers everywhere helps nobody.' }) : null,
     v2?.spatial?.length ? dataTable('Named districts against the rest', [
       { label: 'Flood', key: 'event' },
       { label: 'Named districts warned', num: true, cell: (r) => of(r.named_warned, r.named) },
       { label: 'Other districts warned', num: true, cell: (r) => of(r.other_warned, r.other) },
     ], v2.spatial) : null,
     rows.length ? h('h3', { class: 'sub-title', text: 'Could this be luck?' }) : null,
-    rows.length ? h('p', { class: 'read', text: 'Alerts come in clumps, so a rule can catch floods by accident. Each flood was moved to random days of the same monsoon 2,000 times and scored again. The last two columns show what that gave. A rule that beats the 95th percentile is unlikely to be luck, though the test is generous to version 2, which was built after seeing these floods.' }) : null,
+    rows.length ? h('p', { class: 'read', text: 'Alerts come in clumps, so a rule can catch floods by accident. Each flood was moved to random days between July and September of its year, 2,000 times, and scored again. The last two columns show what that gave. A rule above the 95th percentile is unlikely to be luck, though the test is generous to version 2, which was built after seeing these floods.' }) : null,
     rows.length ? dataTable('Floods warned against chance', [
       { label: 'Rule', key: 'name' },
       { label: `Warned, of ${v2.district_events}`, key: 'warned', num: true },

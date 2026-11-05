@@ -4,33 +4,48 @@
   "warning": 124.83999999999995,
   "severe": 156.53999999999994
  },
+ "thresholds_before_fix_mm": {
+  "watch": 112.57000000000008,
+  "warning": 138.18449999999993,
+  "severe": 170.44999999999993
+ },
  "forecast_coverage": 0.9673202614379085,
- "alert_rate": 0.11105377823644078,
+ "alert_rate": 0.09333791996330695,
  "alert_rate_by_year": {
-  "2024": 0.12108703130374956,
-  "2025": 0.10887512899896801,
-  "2026": 0.10319917440660474
+  "2024": 0.11059511523907808,
+  "2025": 0.08961128310973512,
+  "2026": 0.07980736154110767
  },
  "totals": {
   "sajag": {
-   "warned_1d": 38,
-   "warned_3d": 37,
-   "alert_rate": 0.11105377823644078
+   "warned_1d": 33,
+   "warned_3d": 32,
+   "alert_rate": 0.09333791996330695
   },
   "sajag_watch": {
    "warned_1d": 39,
    "warned_3d": 39,
-   "alert_rate": 0.2776057791537668
+   "alert_rate": 0.26453388372893016
+  },
+  "complete_data": {
+   "warned_1d": 33,
+   "warned_3d": 32,
+   "alert_rate": 0.09178993234720789
+  },
+  "higher_threshold": {
+   "warned_1d": 32,
+   "warned_3d": 29,
+   "alert_rate": 0.07504873294346978
   },
   "model_only": {
-   "warned_1d": 16,
-   "warned_3d": 15,
-   "alert_rate": 0.047872950349730534
+   "warned_1d": 11,
+   "warned_3d": 9,
+   "alert_rate": 0.04277032450407063
   },
   "forecast_only": {
-   "warned_1d": 27,
-   "warned_3d": 27,
-   "alert_rate": 0.06879944960440317
+   "warned_1d": 23,
+   "warned_3d": 23,
+   "alert_rate": 0.053319573443412455
   },
   "river_fixed": {
    "warned_1d": 8,
@@ -38,22 +53,69 @@
    "alert_rate": 0.046840958605664486
   },
   "rain_fixed": {
-   "warned_1d": 21,
-   "warned_3d": 10,
-   "alert_rate": 0.035661048044948976
+   "warned_1d": 26,
+   "warned_3d": 12,
+   "alert_rate": 0.05062492833390666
+  },
+  "forecast_matched": {
+   "warned_1d": 31,
+   "warned_3d": 29,
+   "alert_rate": 0.0933952528379773
+  },
+  "forecast_or_river": {
+   "warned_1d": 31,
+   "warned_3d": 31,
+   "alert_rate": 0.09345258571264763
   },
   "river_matched": {
    "warned_1d": 14,
    "warned_3d": 11,
-   "alert_rate": 0.11151244123380347
+   "alert_rate": 0.09368191721132897
   },
   "rain_matched": {
    "warned_1d": 31,
-   "warned_3d": 23,
-   "alert_rate": 0.1111111111111111
+   "warned_3d": 17,
+   "alert_rate": 0.0935672514619883
   }
  },
  "district_events": 46,
+ "first_listed": {
+  "districts": 39,
+  "warned_3d": 25
+ },
+ "already_on_8_days_before": 19,
+ "burden": {
+  "mean": 14.280701754385968,
+  "median": 15.166666666666668,
+  "most": [
+   [
+    "katihar",
+    30.0
+   ],
+   [
+    "madhepura",
+    28.3
+   ],
+   [
+    "kishanganj",
+    26.7
+   ]
+  ],
+  "least": [
+   [
+    "sheikhpura",
+    0.7
+   ],
+   [
+    "banka",
+    1.0
+   ],
+   [
+    "nawada",
+    1.7
+   ]
+  ]
+ },
  "events": [
   {
    "event": "2024 Ganga flood",
@@ -61,8 +123,10 @@
    "districts": 7,
    "warned_1d": 0,
    "warned_3d": 0,
+   "forecast_3d": 0,
+   "combo_3d": 0,
    "river_3d": 2,
-   "rain_3d": 4,
+   "rain_3d": 3,
    "median_lead": 0.0
   },
   {
@@ -71,8 +135,10 @@
    "districts": 14,
    "warned_1d": 14,
    "warned_3d": 14,
+   "forecast_3d": 14,
+   "combo_3d": 14,
    "river_3d": 0,
-   "rain_3d": 6,
+   "rain_3d": 2,
    "median_lead": 5.0
   },
   {
@@ -81,18 +147,22 @@
    "districts": 7,
    "warned_1d": 6,
    "warned_3d": 6,
+   "forecast_3d": 2,
+   "combo_3d": 6,
    "river_3d": 3,
    "rain_3d": 2,
-   "median_lead": 5.5
+   "median_lead": 6.0
   },
   {
    "event": "2026 September Ganga flood",
    "first_report": "2026-09-05",
    "districts": 12,
-   "warned_1d": 12,
-   "warned_3d": 11,
+   "warned_1d": 7,
+   "warned_3d": 6,
+   "forecast_3d": 7,
+   "combo_3d": 5,
    "river_3d": 4,
-   "rain_3d": 5,
+   "rain_3d": 4,
    "median_lead": 7.0
   },
   {
@@ -101,6 +171,8 @@
    "districts": 6,
    "warned_1d": 6,
    "warned_3d": 6,
+   "forecast_3d": 6,
+   "combo_3d": 6,
    "river_3d": 2,
    "rain_3d": 6,
    "median_lead": 7.0
@@ -112,7 +184,7 @@
    "named": 7,
    "named_warned": 0,
    "other": 31,
-   "other_warned": 0
+   "other_warned": 1
   },
   {
    "event": "2024 Nepal rivers flood",
@@ -124,55 +196,67 @@
   {
    "event": "2025 August Ganga flood",
    "named": 7,
-   "named_warned": 5,
+   "named_warned": 6,
    "other": 31,
-   "other_warned": 21
+   "other_warned": 23
   },
   {
    "event": "2026 September Ganga flood",
    "named": 12,
-   "named_warned": 10,
+   "named_warned": 6,
    "other": 26,
-   "other_warned": 10
+   "other_warned": 13
   },
   {
    "event": "2026 late September flood",
    "named": 6,
    "named_warned": 6,
    "other": 32,
-   "other_warned": 11
+   "other_warned": 14
   }
  ],
  "placebo": {
   "sajag": {
-   "actual": 37,
-   "chance_mean": 13.497,
-   "chance_p95": 27.0,
-   "p": 0.0014992503748125937
+   "actual": 32,
+   "chance_mean": 18.738,
+   "chance_p95": 31.0,
+   "p": 0.04447776111944028
   },
   "model_only": {
-   "actual": 15,
-   "chance_mean": 5.6395,
-   "chance_p95": 17.0,
-   "p": 0.09695152423788106
+   "actual": 9,
+   "chance_mean": 8.396,
+   "chance_p95": 21.0,
+   "p": 0.41379310344827586
   },
   "forecast_only": {
-   "actual": 27,
-   "chance_mean": 9.843,
-   "chance_p95": 24.0,
-   "p": 0.02448775612193903
+   "actual": 23,
+   "chance_mean": 12.2025,
+   "chance_p95": 26.0,
+   "p": 0.11144427786106946
+  },
+  "forecast_matched": {
+   "actual": 29,
+   "chance_mean": 19.003,
+   "chance_p95": 32.0,
+   "p": 0.13243378310844578
+  },
+  "forecast_or_river": {
+   "actual": 31,
+   "chance_mean": 14.618,
+   "chance_p95": 28.0,
+   "p": 0.0239880059970015
   },
   "rain_matched": {
-   "actual": 23,
-   "chance_mean": 11.4325,
+   "actual": 17,
+   "chance_mean": 12.411,
    "chance_p95": 25.0,
-   "p": 0.09145427286356822
+   "p": 0.27886056971514245
   },
   "river_matched": {
    "actual": 11,
-   "chance_mean": 7.929,
-   "chance_p95": 19.0,
-   "p": 0.2993503248375812
+   "chance_mean": 9.267,
+   "chance_p95": 18.0,
+   "p": 0.38330834582708645
   }
  }
 }

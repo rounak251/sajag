@@ -1,8 +1,12 @@
-"""Rain forecasts as they were really issued, from the Open-Meteo Previous Runs archive.
+"""Rain forecasts from the Open-Meteo Previous Runs archive.
 
-`precipitation_previous_dayK` on a date is the forecast for that date made K days earlier, so a
-past warning can be tested using only what forecasters had at the time. Two independent global
-models are averaged. The choice was fixed on principle, before scoring, not picked per event.
+`precipitation_previous_dayK` at an hour is the forecast for that hour from about K days earlier.
+It is a sliding window, not one model run: for one valid day it stitches runs started across a
+whole day. So a forecast for t+k uses column k+1, not k. That draws only on runs started by 18Z on
+t-1, which were published by about 07:00 IST on t, ahead of the 08:00 IST issue time. Column k would
+use runs from later on day t, which nobody could have seen that morning.
+
+Two independent global models are averaged. That choice was fixed on principle before scoring.
 """
 import time
 
@@ -12,7 +16,7 @@ import requests
 ARCHIVE = "https://previous-runs-api.open-meteo.com/v1/forecast"
 LIVE = "https://api.open-meteo.com/v1/forecast"
 MODELS = ("ecmwf_ifs025", "gfs_global")
-LEADS = (1, 2, 3, 4, 5)
+LEADS = (1, 2, 3, 4, 5, 6)
 
 
 class RateLimited(RuntimeError):
@@ -57,9 +61,6 @@ def archived(lat: float, lon: float, start: str, end: str, model: str) -> pd.Dat
 
 
 def issued_sums(valid: pd.DataFrame, days: int) -> pd.Series:
-    """Rain forecast for the next `days` days, as known on each issue date.
-
-    Issued on t, the forecast for t+k is column k at valid date t+k.
-    """
-    parts = [valid[k].shift(-k) for k in range(1, days + 1)]
+    """Rain forecast for the next `days` days, as public at 08:00 IST on each issue date."""
+    parts = [valid[k + 1].shift(-k) for k in range(1, days + 1)]
     return pd.concat(parts, axis=1).sum(axis=1, min_count=days)

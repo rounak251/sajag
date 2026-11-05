@@ -123,6 +123,13 @@ RIVER_WORDS = r"flood|inundat|breach|embank|barrage|washed away|river|nepal"
 STATEWIDE = 30  # a row naming this many districts is a state summary, not a located event
 
 
+def river_text(raw: pd.DataFrame) -> pd.Series:
+    """All the descriptive text of a row. Blanks must be filled first: on pandas 3 one empty cell
+    otherwise makes the whole joined text NaN, which silently dropped 9 real floods."""
+    columns = ["Main Cause", "Extent of damage ", "Description of Casualties/injured"]
+    return raw[columns].fillna("").astype(str).agg(" ".join, axis=1).str.lower()
+
+
 def load_river_floods(path, known_districts: set[str], first_year: int = 2006) -> pd.DataFrame:
     """Dated, located river floods: the events a warning system should be judged on.
 
@@ -132,11 +139,7 @@ def load_river_floods(path, known_districts: set[str], first_year: int = 2006) -
     """
     events = load_events(path, known_districts)
     raw = pd.read_csv(path, encoding="utf-8-sig").set_index("UEI")
-    text = (
-        raw["Main Cause"].astype(str) + " " + raw["Extent of damage "].astype(str) + " "
-        + raw["Description of Casualties/injured"].astype(str)
-    ).str.lower()
-    is_river = text.str.contains(RIVER_WORDS)
+    is_river = river_text(raw).str.contains(RIVER_WORDS)
     events = events[events["uei"].map(is_river).fillna(False).astype(bool)]
     named = events.groupby("uei")["district"].transform("size")
     keep = (

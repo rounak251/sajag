@@ -19,7 +19,7 @@ LOCAL = ["r3", "r7", "r15", "r30", "soil_root", "up_r3", "up_r7", "up_r15",
 GANGA_FORECAST = [f"g_{kind}{lead}" for lead in (3, 7) for kind in ("pk", "ex")]
 RIVER_FORECAST = [f"{kind}{lead}" for lead in R.LEADS for kind in ("pk", "ex")] + GANGA_FORECAST
 # No day-of-year input. Version 1 had one, and it learned that late September is safe from the
-# few events it saw: on 28 Sept 2024 it gave Darbhanga 0.3% with 161 mm of rain in 3 days.
+# few events it saw: on 28 Sept 2024 it scored Darbhanga 0.003 with 161 mm of rain in 3 days.
 FEATURES = LOCAL + STATE_FEATURES + ["lat", "lon"]
 RISING = set(LOCAL) | set(RIVER_FORECAST) | set(STATE_FEATURES)
 SEEDS = (1, 2, 3, 4, 5)

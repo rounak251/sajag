@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "Flood and drought early warning for Bihar, scored against recorded disasters"
 requires-python = ">=3.11"
 dependencies = [
-  "numpy>=1.26", "pandas>=2.2", "pyarrow>=15", "requests>=2.31",
+  "numpy>=2.0,<3", "pandas>=3.0,<4", "pyarrow>=15", "requests>=2.31",
   "scikit-learn>=1.5", "lightgbm>=4.3", "scipy>=1.11",
 ]
 

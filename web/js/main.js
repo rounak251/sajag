@@ -111,7 +111,7 @@ function renderStories() {
     stories.map((st) => h('button', {
       type: 'button', class: 'story', 'data-story': st.id, 'aria-pressed': 'false',
       onclick: () => startStory(st, { autoplay: true }),
-    }, h('span', { text: st.title }), st.held_out ? h('span', { class: 'story-tag', text: 'Held out' }) : null)));
+    }, h('span', { text: st.title }), st.held_out ? h('span', { class: 'story-tag', text: 'Not in training' }) : null)));
   host.replaceChildren(row, h('p', { class: 'story-caption', id: 'story-caption' }));
 }
 function paintStories() {
@@ -129,7 +129,7 @@ function renderControls() {
   const H = ctx.H;
   const years = [...(ctx.meta.years ?? [])].sort((a, b) => b - a);
   const yearSelect = h('select', { id: 'year', 'aria-label': 'Year', onchange: (e) => pickYear(Number(e.target.value)) },
-    years.map((y) => h('option', { value: y, text: isHeldOut(y) ? `${y}, held out` : String(y) })));
+    years.map((y) => h('option', { value: y, text: isHeldOut(y) ? `${y}, not in training` : String(y) })));
   yearSelect.value = String(state.year);
   leadGroup = choiceGroup({
     label: 'Days ahead', value: state.lead, onChange: (v) => set({ lead: v }), className: 'lead-pick',

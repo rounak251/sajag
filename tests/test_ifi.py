@@ -3,7 +3,14 @@ from datetime import date
 import pandas as pd
 
 from sajag.geo import key
-from sajag.sources.ifi import flood_days, repair_dates, repair_sequence, split_districts
+from sajag.sources.ifi import (
+    RIVER_WORDS,
+    flood_days,
+    repair_dates,
+    repair_sequence,
+    river_text,
+    split_districts,
+)
 
 
 def test_swapped_month_and_day_is_repaired_using_duration():
@@ -73,3 +80,13 @@ def test_november_reading_loses_to_the_monsoon_reading():
     s, _, changed = repair_dates("07-11-2019 00:00", "07-11-2019 00:00", 1.0)
     assert s == date(2019, 7, 11)
     assert changed
+
+
+def test_a_blank_cell_does_not_hide_a_flood_named_in_another_column():
+    raw = pd.DataFrame({
+        "Main Cause": ["Heavy Rains & floods in Ganga", None],
+        "Extent of damage ": [None, None],
+        "Description of Casualties/injured": [None, "4 persons died"],
+    })
+    found = river_text(raw).str.contains(RIVER_WORDS)
+    assert found.tolist() == [True, False]

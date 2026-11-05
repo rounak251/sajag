@@ -47,10 +47,14 @@ def recent_rain(points: dict) -> pd.DataFrame:
     return pd.DataFrame(cols)
 
 
-def forecast_rain(points: dict) -> pd.Series:
-    """Rain forecast for the next five days per point: the mean of the two models."""
+def forecast_rain(points: dict) -> tuple[pd.Series, list[str]]:
+    """Rain forecast for the next five days per point: the mean of the two models.
+
+    A model with any missing day is left out for that point rather than counted as dry, and the
+    run reports which models were short.
+    """
     names = list(points)
-    runs = []
+    runs, short = [], []
     for model in nwp.MODELS:
         r = requests.get(nwp.LIVE, params={
             "latitude": ",".join(str(points[n][0]) for n in names),
@@ -61,12 +65,16 @@ def forecast_rain(points: dict) -> pd.Series:
         r.raise_for_status()
         data = r.json()
         data = data if isinstance(data, list) else [data]
-        runs.append(pd.Series({
-            n: float(np.nansum(np.array(d["daily"]["precipitation_sum"][1:], dtype=float)))
+        days = {
+            n: pd.Series(d["daily"]["precipitation_sum"][1:], dtype="float64")
             for n, d in zip(names, data)
-        }))
+        }
+        run = pd.Series({n: s.sum(min_count=rain_rule.WINDOW_DAYS) for n, s in days.items()})
+        if run.isna().any():
+            short.append(model)
+        runs.append(run)
         time.sleep(1)
-    return pd.concat(runs, axis=1).mean(axis=1)
+    return pd.concat(runs, axis=1).mean(axis=1), short
 
 
 def gather(today: date, districts: pd.DataFrame, sites: pd.DataFrame) -> dict:
@@ -100,10 +108,12 @@ def gather(today: date, districts: pd.DataFrame, sites: pd.DataFrame) -> dict:
         flows[s.site_id] = history.reindex(index).interpolate(limit=3)
         outlook[s.site_id] = glofas.forecast(s.lat, s.lon)
         time.sleep(0.3)
+    fc5, short = forecast_rain(points)
+    missing = int(rain.isna().sum().sum() + upstream.isna().sum().sum())
     return {
         "rain": rain.fillna(0), "upstream": upstream.fillna(0), "soil_top": soil_top,
         "soil_root": soil_root, "q": pd.DataFrame(flows), "outlook": outlook,
-        "fc5": forecast_rain(points),
+        "fc5": fc5, "short_models": short, "missing_rain": missing,
     }
 
 
@@ -190,6 +200,8 @@ def run(today: date | None = None) -> dict:
             "The flood model runs from 1 June to 31 October, the months it was trained on. "
             "River flows below are still live."
         ),
+        "degraded": {"forecast_models_short": data["short_models"],
+                     "rain_values_missing": data["missing_rain"]},
         "districts": out_districts,
         "sites": site_summary(sites, data["q"], data["outlook"], ref, peak7, today),
     }
@@ -199,7 +211,8 @@ def run(today: date | None = None) -> dict:
     log.mkdir(exist_ok=True)
     summary = {k: {"level": v["level"], "risk": v["risk"]} for k, v in out_districts.items()}
     (log / f"{today}.json").write_text(dumps(
-        {"issued": str(today), "season_active": season, "districts": summary}, indent=0,
+        {"issued": str(today), "season_active": season, "degraded": out["degraded"],
+         "districts": summary}, indent=0,
     ))
     return out
 

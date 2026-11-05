@@ -41,7 +41,9 @@ def load_point_forecasts() -> pd.DataFrame:
     return pd.DataFrame(columns).sort_index()
 
 
-def _combine(points: pd.DataFrame, groups: dict, sites: pd.DataFrame) -> pd.Series:
+def _combine(
+    points: pd.DataFrame, groups: dict, sites: pd.DataFrame, south_fix: bool = True,
+) -> pd.Series:
     """The wetter of the district's own rain and its worst upstream tributary basin."""
     river_of = dict(zip(sites["site_id"], sites["river"]))
     basin_points: dict[str, list[str]] = {}
@@ -51,7 +53,7 @@ def _combine(points: pd.DataFrame, groups: dict, sites: pd.DataFrame) -> pd.Seri
     for district, ids in groups["trib"].items():
         local = points[f"district_{district}"]
         rivers = {river_of[s] for s in ids} & set(basin_points)
-        if district in SOUTH_OF_GANGA:
+        if south_fix and district in SOUTH_OF_GANGA:
             rivers = {"Sone"} if district in SONE_DISTRICTS else set()
         basins = [points[basin_points[r]].mean(axis=1, skipna=False) for r in sorted(rivers)]
         out[district] = pd.concat([local, *basins], axis=1).max(axis=1, skipna=False)
@@ -69,10 +71,11 @@ def district_statistic(points: pd.DataFrame, groups: dict, sites: pd.DataFrame) 
 
 def observed_statistic(
     rain: pd.DataFrame, upstream: pd.DataFrame, groups: dict, sites: pd.DataFrame,
+    south_fix: bool = True,
 ) -> pd.Series:
     """The same statistic on rain that really fell, as five-day sums."""
     points = pd.concat([rain.add_prefix("district_"), upstream.add_prefix("upstream_")], axis=1)
-    return _combine(points.rolling(WINDOW_DAYS).sum(), groups, sites)
+    return _combine(points.rolling(WINDOW_DAYS).sum(), groups, sites, south_fix)
 
 
 def thresholds(stat: pd.Series) -> dict[str, float]:

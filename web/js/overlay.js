@@ -55,7 +55,7 @@ export function renderHead(host) {
   const heldOut = isHeldOut(H.year, H);
   const tags = h('p', { class: 'mh-tags' },
     h('span', { class: 'tag', text: 'Replay of past data' }),
-    heldOut ? h('span', { class: 'tag tag-blind', id: 'heldout-tag', text: `Held out: ${H.year} floods were not used for training` }) : null);
+    heldOut ? h('span', { class: 'tag tag-blind', id: 'heldout-tag', text: `Not in training data. Tuned after seeing ${H.year}, see Evidence` }) : null);
 
   if (state.layer === 'drought' && ctx.drought) {
     const D = ctx.drought;

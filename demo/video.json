@@ -1,0 +1,103 @@
+{
+  "out": "sajag_demo.mp4",
+  "viewport": [
+    1280,
+    800
+  ],
+  "voice": "Rishi",
+  "rate": 165,
+  "scenes": [
+    {
+      "url": "http://127.0.0.1:8765/",
+      "narration": "Bihar floods almost every year, and the worst of it starts somewhere else. In September 2024, rain in Nepal sent the Kosi through its embankments. This is Sajag, a flood and drought warning system for Bihar's thirty eight districts. What you are seeing is a replay of that flood, using only the forecasts that were really issued at the time.",
+      "actions": [
+        {
+          "type": "wait",
+          "ms": 2000
+        }
+      ]
+    },
+    {
+      "url": "http://127.0.0.1:8765/#/?year=2024&date=2024-09-24&lead=7&district=darbhanga",
+      "narration": "On the twenty third of September, a forecast of a hundred and thirty six millimetres put Darbhanga at Warning. By the twenty fourth, all fourteen districts later named in flood reports were at Warning, four days before the first report. The panel says why, and that the level came from the rain forecast. It also ranks every village by how exposed it is, from satellite records of where water has been seen.",
+      "actions": [
+        {
+          "type": "wait",
+          "ms": 1500
+        },
+        {
+          "type": "eval",
+          "js": "document.querySelector('[aria-label*=\"All Bihar\"], button.all-bihar')?.click()"
+        }
+      ]
+    },
+    {
+      "url": "http://127.0.0.1:8765/#/?year=2024&date=2024-09-25&lead=7&district=darbhanga",
+      "narration": "A warning only matters if it reaches people. Every alert fits one text message on a basic phone, in Hindi, Maithili, Bhojpuri or English, with a voice call for people who cannot read it.",
+      "actions": [
+        {
+          "type": "wait",
+          "ms": 800
+        },
+        {
+          "type": "eval",
+          "js": "[...document.querySelectorAll('button,[role=tab]')].find(b=>/Alert preview/.test(b.textContent))?.click()"
+        },
+        {
+          "type": "wait",
+          "ms": 1800
+        },
+        {
+          "type": "eval",
+          "js": "[...document.querySelectorAll('button,[role=radio]')].find(b=>/मैथिली/.test(b.textContent))?.click()"
+        }
+      ]
+    },
+    {
+      "url": "http://127.0.0.1:8765/#/evidence",
+      "narration": "Now the part that matters most. Before testing on recent years, I committed a list of forty six real district floods to git, so the test could not be changed later. Cross validation promised sixty percent. The first model warned just three of forty six, and lost to simple rules. It had learned that late September is safe, because almost none of its training floods came that late.",
+      "actions": [
+        {
+          "type": "wait",
+          "ms": 2500
+        },
+        {
+          "type": "scroll",
+          "y": 700
+        }
+      ]
+    },
+    {
+      "url": "http://127.0.0.1:8765/#/evidence",
+      "narration": "Version two removed the calendar and added rain forecasts. It warns thirty two of the same forty six floods, three or more days ahead. But be careful with that number. A plain forecast threshold, with no machine learning at all, gets twenty nine. Chance gets about nineteen. It missed the 2024 Ganga flood completely, and this is not a blind result, because it was built after seeing the failure. All of that is on this page.",
+      "actions": [
+        {
+          "type": "eval",
+          "js": "window.scrollTo(0,1150)"
+        },
+        {
+          "type": "wait",
+          "ms": 6000
+        },
+        {
+          "type": "eval",
+          "js": "window.scrollTo(0,1650)"
+        }
+      ]
+    },
+    {
+      "url": "http://127.0.0.1:8765/#/today",
+      "narration": "The system runs for real, every morning, on free infrastructure, with no server to maintain. Each forecast is committed to git before anyone knows the outcome. So next monsoon is the true blind test, and the record cannot be edited. The name Sajag means vigilant.",
+      "actions": [
+        {
+          "type": "wait",
+          "ms": 2500
+        },
+        {
+          "type": "scroll",
+          "y": 500
+        }
+      ]
+    }
+  ]
+}
