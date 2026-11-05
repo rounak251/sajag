@@ -28,17 +28,29 @@ def _points(districts: pd.DataFrame) -> dict[str, tuple[float, float]]:
     return out
 
 
+def _get_json(params: dict, retries: int = 5):
+    """GET the Open-Meteo forecast API, retrying network errors and server hiccups."""
+    for attempt in range(retries):
+        try:
+            r = requests.get(nwp.LIVE, params=params, timeout=120)
+            r.raise_for_status()
+            return r.json()
+        except requests.RequestException:
+            if attempt == retries - 1:
+                raise
+            time.sleep(15 * (attempt + 1))
+    raise RuntimeError("unreachable")
+
+
 def recent_rain(points: dict) -> pd.DataFrame:
     """Rain for the last few days, which NASA POWER has not published yet."""
     names = list(points)
-    r = requests.get(nwp.LIVE, params={
+    data = _get_json({
         "latitude": ",".join(str(points[n][0]) for n in names),
         "longitude": ",".join(str(points[n][1]) for n in names),
         "daily": "precipitation_sum", "past_days": RECENT_RAIN_DAYS, "forecast_days": 1,
         "timezone": "Asia/Kolkata",
-    }, timeout=120)
-    r.raise_for_status()
-    data = r.json()
+    })
     data = data if isinstance(data, list) else [data]
     cols = {
         n: pd.Series(d["daily"]["precipitation_sum"], index=pd.to_datetime(d["daily"]["time"]))
@@ -56,14 +68,12 @@ def forecast_rain(points: dict) -> tuple[pd.Series, list[str]]:
     names = list(points)
     runs, short = [], []
     for model in nwp.MODELS:
-        r = requests.get(nwp.LIVE, params={
+        data = _get_json({
             "latitude": ",".join(str(points[n][0]) for n in names),
             "longitude": ",".join(str(points[n][1]) for n in names),
             "daily": "precipitation_sum", "forecast_days": rain_rule.WINDOW_DAYS + 1,
             "models": model, "timezone": "Asia/Kolkata",
-        }, timeout=120)
-        r.raise_for_status()
-        data = r.json()
+        })
         data = data if isinstance(data, list) else [data]
         days = {
             n: pd.Series(d["daily"]["precipitation_sum"][1:], dtype="float64")

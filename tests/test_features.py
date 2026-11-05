@@ -72,3 +72,29 @@ def test_nearest_sites_are_ordered_by_distance():
         "lat": [29.0, 26.01, 26.5], "lon": [90.0, 86.0, 86.5],
     })
     assert F.nearest_sites(districts, sites, 2)["a"] == ["near", "mid"]
+
+
+def test_river_fetch_retries_after_a_timeout(monkeypatch):
+    import requests
+
+    from sajag.sources import glofas
+
+    calls = {"n": 0}
+
+    class Ok:
+        status_code = 200
+        ok = True
+
+        def json(self):
+            return {"daily": {"time": ["2026-11-05"], "river_discharge": [1.0]}}
+
+    def flaky(*args, **kwargs):
+        calls["n"] += 1
+        if calls["n"] == 1:
+            raise requests.exceptions.ReadTimeout("slow")
+        return Ok()
+
+    monkeypatch.setattr(glofas.requests, "get", flaky)
+    monkeypatch.setattr(glofas.time, "sleep", lambda s: None)
+    assert glofas.history(26.5, 86.9, "2026-11-05", "2026-11-05").iloc[0] == 1.0
+    assert calls["n"] == 2

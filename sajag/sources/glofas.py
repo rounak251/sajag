@@ -14,7 +14,14 @@ class RateLimited(RuntimeError):
 
 def _get(params: dict, retries: int = 5) -> dict | list:
     for attempt in range(retries):
-        r = requests.get(URL, params=params, timeout=120)
+        try:
+            r = requests.get(URL, params=params, timeout=120)
+        except requests.RequestException:
+            # A timeout on one site once failed the whole daily run on GitHub's servers.
+            if attempt == retries - 1:
+                raise
+            time.sleep(15 * (attempt + 1))
+            continue
         if r.status_code == 429:
             reason = r.text[:200]
             if "Hourly" in reason or "Daily" in reason:
